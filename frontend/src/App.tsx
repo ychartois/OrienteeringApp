@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
 import SymbolLibraryScreen from './screens/SymbolLibraryScreen';
+import QuizScreen from './screens/QuizScreen';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,11 @@ class App extends Component {
                 name="SymbolLibrary" 
                 component={SymbolLibraryScreen} 
                 options={{ title: 'Symbol Library' }}
+              />
+              <Stack.Screen 
+                name="Quiz" 
+                component={QuizScreen} 
+                options={{ title: 'Symbol Quiz' }}
               />
             </Stack.Navigator>
           </SafeAreaView>

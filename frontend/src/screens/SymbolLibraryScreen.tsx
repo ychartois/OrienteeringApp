@@ -144,6 +144,15 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
         <View style={styles.headerContainer}>
           <Title style={styles.header}>IOF Control Description Symbols</Title>
           <Divider />
+          <View style={styles.quizButtonContainer}>
+            <Button 
+              mode="contained" 
+              onPress={() => this.props.navigation.navigate('Quiz')}
+              style={styles.quizButton}
+            >
+              Take a Quiz
+            </Button>
+          </View>
         </View>
         
         <View style={styles.filterContainer}>
@@ -225,6 +234,14 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     textAlign: 'center',
+    marginBottom: 8,
+  },
+  quizButtonContainer: {
+    marginTop: 16,
+    alignItems: 'center',
+  },
+  quizButton: {
+    width: '80%',
     marginBottom: 8,
   },
   filterContainer: {

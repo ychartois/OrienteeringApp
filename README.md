@@ -9,7 +9,11 @@ This application aims to educate users on IOF control description symbols, enabl
 ## Features
 
 - **Symbol Library**: A comprehensive catalog of IOF symbols with detailed descriptions, search functionality, filtering by type, and results count display
-- **Interactive Quizzes**: Engaging quizzes to test symbol knowledge
+- **Interactive Quizzes**: Engaging quizzes to test symbol knowledge with three difficulty levels (Easy, Medium, Hard)
+  - Multiple-choice questions with immediate feedback
+  - Explanations for correct answers
+  - Score tracking and performance evaluation
+  - Ability to restart quizzes or change difficulty levels
 - **Control Sheet Simulator**: A tool to practice interpreting full control description sheets
 - **Progress Tracking**: Monitor user advancement and provide feedback
 
