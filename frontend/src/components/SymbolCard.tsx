@@ -32,7 +32,6 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress }) => {
           />
         </View>
         <View style={styles.content}>
-          <Text style={styles.reference}>{symbol.ref}</Text>
           <Title>{symbol.name}</Title>
           <Text style={styles.type}>{symbol.type}</Text>
           {symbol.description && (

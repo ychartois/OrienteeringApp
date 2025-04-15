@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { View, FlatList, StyleSheet, Image } from 'react-native';
-import { Text, ActivityIndicator, Title, Divider, Searchbar, Button, Menu } from 'react-native-paper';
+import { View, FlatList, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
+import { Text, ActivityIndicator, Title, Divider, Button, Modal, Portal } from 'react-native-paper';
 import SymbolCard from '../components/SymbolCard';
 import { getAllSymbols, getAllSymbolTypes } from '../utils/assetUtils';
 
@@ -93,7 +93,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
   filterSymbols = () => {
     const { symbols, searchQuery, selectedType } = this.state;
     
-    let filtered = symbols;
+    let filtered = [...symbols];
     
     // Filter by search query
     if (searchQuery) {
@@ -105,8 +105,8 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
       );
     }
     
-    // Filter by type
-    if (selectedType) {
+    // Filter by type - only if a type is selected
+    if (selectedType !== null) {
       filtered = filtered.filter(symbol => symbol.type === selectedType);
     }
     
@@ -156,40 +156,96 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
         </View>
         
         <View style={styles.filterContainer}>
-          <Searchbar
-            placeholder="Search symbols"
-            onChangeText={this.handleSearch}
-            value={searchQuery}
-            style={styles.searchBar}
-            icon={() => null}
-          />
-          
-          <Menu
-            visible={typeMenuVisible}
-            onDismiss={this.toggleTypeMenu}
-            anchor={
-              <Button 
-                mode="outlined" 
-                onPress={this.toggleTypeMenu}
-                style={styles.filterButton}
-              >
-                {selectedType || "All Types"}
-              </Button>
-            }
-          >
-            <Menu.Item 
-              onPress={() => this.handleTypeSelect(null)} 
-              title="All Types" 
-            />
-            <Divider />
-            {symbolTypes.map(type => (
-              <Menu.Item 
-                key={type}
-                onPress={() => this.handleTypeSelect(type)} 
-                title={type} 
+          <View style={styles.searchBarWrapper}>
+            <View style={styles.searchBar}>
+              <Text style={styles.searchIcon}>🔍</Text>
+              <TextInput
+                placeholder="Search symbols..."
+                onChangeText={this.handleSearch}
+                value={searchQuery}
+                style={styles.searchInput}
+                placeholderTextColor="#888"
+                returnKeyType="search"
               />
-            ))}
-          </Menu>
+              {searchQuery.length > 0 && (
+                <TouchableOpacity 
+                  style={styles.clearButton}
+                  onPress={() => this.handleSearch('')}
+                >
+                  <Text style={styles.clearButtonText}>✕</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </View>
+          
+          <Button 
+            mode="contained" 
+            onPress={this.toggleTypeMenu}
+            style={styles.filterButton}
+            labelStyle={styles.filterButtonLabel}
+          >
+            {selectedType ? selectedType.replace(/_/g, ' ') : "Filter"}
+          </Button>
+          
+          <Portal>
+            <Modal 
+              visible={typeMenuVisible} 
+              onDismiss={this.toggleTypeMenu}
+              contentContainerStyle={styles.modalContainer}
+            >
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>Select Symbol Type</Text>
+                <TouchableOpacity onPress={this.toggleTypeMenu} style={styles.closeButton}>
+                  <Text style={styles.closeButtonText}>✕</Text>
+                </TouchableOpacity>
+              </View>
+              
+              <Divider style={styles.modalDivider} />
+              
+              <ScrollView style={styles.typeList}>
+                <TouchableOpacity
+                  style={[
+                    styles.typeItem,
+                    selectedType === null && styles.selectedTypeItem
+                  ]}
+                  onPress={() => this.handleTypeSelect(null)}
+                >
+                  <Text style={[
+                    styles.typeText,
+                    selectedType === null && styles.selectedTypeText
+                  ]}>
+                    All Types
+                  </Text>
+                  {selectedType === null && (
+                    <Text style={styles.checkIcon}>✓</Text>
+                  )}
+                </TouchableOpacity>
+                
+                <Divider />
+                
+                {symbolTypes.map(type => (
+                  <TouchableOpacity
+                    key={type}
+                    style={[
+                      styles.typeItem,
+                      selectedType === type && styles.selectedTypeItem
+                    ]}
+                    onPress={() => this.handleTypeSelect(type)}
+                  >
+                    <Text style={[
+                      styles.typeText,
+                      selectedType === type && styles.selectedTypeText
+                    ]}>
+                      {type.replace(/_/g, ' ')}
+                    </Text>
+                    {selectedType === type && (
+                      <Text style={styles.checkIcon}>✓</Text>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
+            </Modal>
+          </Portal>
         </View>
         
         <View style={styles.resultsCountContainer}>
@@ -249,16 +305,121 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 16,
     alignItems: 'center',
+    gap: 10,
+  },
+  searchBarWrapper: {
+    flex: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+    borderRadius: 8,
+    backgroundColor: '#FFFFFF',
   },
   searchBar: {
-    flex: 1,
-    marginRight: 8,
-    elevation: 0,
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: '#FFFFFF',
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    height: 44,
+  },
+  searchIcon: {
+    fontSize: 16,
+    marginRight: 8,
+  },
+  searchInput: {
+    flex: 1,
+    fontSize: 16,
+    color: '#333',
+    height: '100%',
+    padding: 0,
+  },
+  clearButton: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#e0e0e0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  clearButtonText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#666',
   },
   filterButton: {
-    minWidth: 120,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
+    height: 44,
+    justifyContent: 'center',
+    paddingHorizontal: 16,
+  },
+  filterButtonLabel: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    margin: 20,
+    borderRadius: 12,
+    maxHeight: '70%',
+    elevation: 5,
+    overflow: 'hidden',
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  modalDivider: {
+    height: 1,
+  },
+  closeButton: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    backgroundColor: '#f0f0f0',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#666',
+  },
+  typeList: {
+    maxHeight: 400,
+  },
+  typeItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+  },
+  selectedTypeItem: {
+    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+  },
+  typeText: {
+    fontSize: 16,
+  },
+  selectedTypeText: {
+    color: '#007BFF',
+    fontWeight: 'bold',
+  },
+  checkIcon: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#007BFF',
+    marginRight: 10,
   },
   resultsCountContainer: {
     paddingHorizontal: 16,
