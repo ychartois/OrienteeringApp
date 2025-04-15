@@ -149,6 +149,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
               mode="contained" 
               onPress={() => this.props.navigation.navigate('Quiz')}
               style={styles.quizButton}
+              color="#007BFF"
             >
               Take a Quiz
             </Button>
@@ -183,6 +184,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
             onPress={this.toggleTypeMenu}
             style={styles.filterButton}
             labelStyle={styles.filterButtonLabel}
+            color="#007BFF"
           >
             {selectedType ? selectedType.replace(/_/g, ' ') : "Filter"}
           </Button>
@@ -350,7 +352,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   filterButton: {
-    backgroundColor: '#007BFF',
     borderRadius: 8,
     height: 44,
     justifyContent: 'center',
