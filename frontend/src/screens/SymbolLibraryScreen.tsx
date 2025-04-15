@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { View, FlatList, StyleSheet } from 'react-native';
-import { Text, ActivityIndicator, Title, Divider } from 'react-native-paper';
+import { View, FlatList, StyleSheet, Image } from 'react-native';
+import { Text, ActivityIndicator, Title, Divider, Searchbar, Button, Menu } from 'react-native-paper';
 import SymbolCard from '../components/SymbolCard';
+import { getAllSymbols, getAllSymbolTypes } from '../utils/assetUtils';
 
 interface Symbol {
   id: string;
@@ -19,48 +20,29 @@ interface SymbolLibraryScreenProps {
 
 interface SymbolLibraryScreenState {
   symbols: Symbol[];
+  filteredSymbols: Symbol[];
   loading: boolean;
   error: string | null;
+  searchQuery: string;
+  selectedType: string | null;
+  typeMenuVisible: boolean;
 }
 
-// Mock data for development - would be replaced with API calls
-const mockSymbols: Symbol[] = [
-  {
-    id: '1',
-    ref: '1.2',
-    name: 'Spur',
-    column: 'Column D',
-    type: 'Landforms',
-    image: 'https://placeholder.com/assets/Column_D-Landforms-1.2-Spur.png',
-    description: 'A contour projection or "nose" rising from the surrounding ground.'
-  },
-  {
-    id: '2',
-    ref: '3.1',
-    name: 'Lake',
-    column: 'Column D',
-    type: 'Water Features',
-    image: 'https://placeholder.com/assets/Column_D-Water_Features-3.1-Lake.png',
-    description: 'A body of water.'
-  },
-  {
-    id: '3',
-    ref: '4.9',
-    name: 'Prominent tree',
-    column: 'Column D',
-    type: 'Vegetation',
-    image: 'https://placeholder.com/assets/Column_D-Vegetation-4.9-Prominent_tree.png',
-    description: 'A notable or distinctive tree.'
-  }
-];
+// Get symbols and types from the utility functions
+const appSymbols: Symbol[] = getAllSymbols();
+const symbolTypes: string[] = getAllSymbolTypes();
 
 class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibraryScreenState> {
   constructor(props: SymbolLibraryScreenProps) {
     super(props);
     this.state = {
       symbols: [],
+      filteredSymbols: [],
       loading: true,
-      error: null
+      error: null,
+      searchQuery: '',
+      selectedType: null,
+      typeMenuVisible: false
     };
   }
 
@@ -75,19 +57,60 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
       // const response = await fetch('api/symbols');
       // const data = await response.json();
       
-      // Using mock data for now
-      setTimeout(() => {
-        this.setState({
-          symbols: mockSymbols,
-          loading: false
-        });
-      }, 1000);
+        // Using local assets
+        setTimeout(() => {
+          this.setState({
+            symbols: appSymbols,
+            filteredSymbols: appSymbols,
+            loading: false
+          });
+        }, 1000);
     } catch (err) {
       this.setState({
         error: 'Failed to fetch symbols',
         loading: false
       });
     }
+  };
+
+  handleSearch = (query: string) => {
+    this.setState({ searchQuery: query }, this.filterSymbols);
+  };
+
+  handleTypeSelect = (type: string | null) => {
+    this.setState({ 
+      selectedType: type,
+      typeMenuVisible: false 
+    }, this.filterSymbols);
+  };
+
+  toggleTypeMenu = () => {
+    this.setState(prevState => ({
+      typeMenuVisible: !prevState.typeMenuVisible
+    }));
+  };
+
+  filterSymbols = () => {
+    const { symbols, searchQuery, selectedType } = this.state;
+    
+    let filtered = symbols;
+    
+    // Filter by search query
+    if (searchQuery) {
+      const lowerCaseQuery = searchQuery.toLowerCase();
+      filtered = filtered.filter(symbol => 
+        symbol.name.toLowerCase().includes(lowerCaseQuery) ||
+        symbol.description?.toLowerCase().includes(lowerCaseQuery) ||
+        symbol.ref.toLowerCase().includes(lowerCaseQuery)
+      );
+    }
+    
+    // Filter by type
+    if (selectedType) {
+      filtered = filtered.filter(symbol => symbol.type === selectedType);
+    }
+    
+    this.setState({ filteredSymbols: filtered });
   };
 
   handleSymbolPress = (symbol: Symbol) => {
@@ -97,7 +120,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
   };
 
   render() {
-    const { symbols, loading, error } = this.state;
+    const { filteredSymbols, loading, error, searchQuery, selectedType, typeMenuVisible } = this.state;
 
     if (loading) {
       return (
@@ -118,8 +141,56 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
 
     return (
       <View style={styles.container}>
+        <View style={styles.headerContainer}>
+          <Title style={styles.header}>IOF Control Description Symbols</Title>
+          <Divider />
+        </View>
+        
+        <View style={styles.filterContainer}>
+          <Searchbar
+            placeholder="Search symbols"
+            onChangeText={this.handleSearch}
+            value={searchQuery}
+            style={styles.searchBar}
+            icon={() => null}
+          />
+          
+          <Menu
+            visible={typeMenuVisible}
+            onDismiss={this.toggleTypeMenu}
+            anchor={
+              <Button 
+                mode="outlined" 
+                onPress={this.toggleTypeMenu}
+                style={styles.filterButton}
+              >
+                {selectedType || "All Types"}
+              </Button>
+            }
+          >
+            <Menu.Item 
+              onPress={() => this.handleTypeSelect(null)} 
+              title="All Types" 
+            />
+            <Divider />
+            {symbolTypes.map(type => (
+              <Menu.Item 
+                key={type}
+                onPress={() => this.handleTypeSelect(type)} 
+                title={type} 
+              />
+            ))}
+          </Menu>
+        </View>
+        
+        <View style={styles.resultsCountContainer}>
+          <Text style={styles.resultsCount}>
+            {filteredSymbols.length} {filteredSymbols.length === 1 ? 'result' : 'results'} found
+          </Text>
+        </View>
+        
         <FlatList
-          data={symbols}
+          data={filteredSymbols}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <SymbolCard 
@@ -127,12 +198,6 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
               onPress={() => this.handleSymbolPress(item)}
             />
           )}
-          ListHeaderComponent={
-            <View style={styles.headerContainer}>
-              <Title style={styles.header}>IOF Control Description Symbols</Title>
-              <Divider />
-            </View>
-          }
           ListEmptyComponent={
             <Text style={styles.emptyText}>No symbols found</Text>
           }
@@ -161,6 +226,30 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 8,
+  },
+  filterContainer: {
+    flexDirection: 'row',
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    alignItems: 'center',
+  },
+  searchBar: {
+    flex: 1,
+    marginRight: 8,
+    elevation: 0,
+    backgroundColor: '#FFFFFF',
+  },
+  filterButton: {
+    minWidth: 120,
+    backgroundColor: '#FFFFFF',
+  },
+  resultsCountContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  resultsCount: {
+    fontSize: 14,
+    color: '#666',
   },
   loadingText: {
     marginTop: 10,

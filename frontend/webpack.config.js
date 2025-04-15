@@ -6,6 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
@@ -21,6 +22,10 @@ module.exports = {
         use: [
           {
             loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images/'
+            }
           },
         ],
       },
@@ -54,6 +59,8 @@ module.exports = {
       '@utils': path.resolve(__dirname, 'src/utils'),
       '@assets': path.resolve(__dirname, 'src/assets'),
       '@navigation': path.resolve(__dirname, 'src/navigation'),
+      // Add alias for the assets directory
+      'assets': path.resolve(__dirname, '../assets'),
     },
   },
   plugins: [
@@ -62,9 +69,16 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: {
-      directory: path.join(__dirname, 'public'),
-    },
+    static: [
+      {
+        directory: path.join(__dirname, 'public'),
+      },
+      {
+        directory: path.join(__dirname, '..', 'assets'),
+        publicPath: '/assets',
+      }
+    ],
+    historyApiFallback: true,
     compress: true,
     port: 3000,
     hot: true,

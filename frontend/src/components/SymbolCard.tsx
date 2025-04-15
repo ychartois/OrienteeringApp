@@ -22,7 +22,11 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress }) => {
       <Card.Content style={styles.cardContent}>
         <View style={styles.imageContainer}>
           <Image 
-            source={{ uri: symbol.image }} 
+            source={
+              symbol.image.startsWith('http') 
+                ? { uri: symbol.image } 
+                : { uri: symbol.image.replace('../../assets', '/assets') }
+            } 
             style={styles.image} 
             resizeMode="contain"
           />

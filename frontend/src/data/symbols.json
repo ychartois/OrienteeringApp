@@ -1,0 +1,749 @@
+[
+  {
+    "id": "c1",
+    "ref": "0.1",
+    "name": "Northern",
+    "column": "Column C",
+    "type": "Clarification",
+    "image": "../../assets/Column_C - Clarification - 0.1 - Northern.png",
+    "description": "Indicates the northern part of a feature."
+  },
+  {
+    "id": "c2",
+    "ref": "0.2",
+    "name": "South Eastern",
+    "column": "Column C",
+    "type": "Clarification",
+    "image": "../../assets/Column_C - Clarification - 0.2 - South_Eastern.png",
+    "description": "Indicates the south-eastern part of a feature."
+  },
+  {
+    "id": "c3",
+    "ref": "0.3",
+    "name": "Upper",
+    "column": "Column C",
+    "type": "Clarification",
+    "image": "../../assets/Column_C - Clarification - 0.3 - Upper.png",
+    "description": "Indicates the upper part of a feature."
+  },
+  {
+    "id": "c4",
+    "ref": "0.4",
+    "name": "Lower",
+    "column": "Column C",
+    "type": "Clarification",
+    "image": "../../assets/Column_C - Clarification - 0.4 - Lower.png",
+    "description": "Indicates the lower part of a feature."
+  },
+  {
+    "id": "c5",
+    "ref": "0.5",
+    "name": "Middle",
+    "column": "Column C",
+    "type": "Clarification",
+    "image": "../../assets/Column_C - Clarification - 0.5 - Middle.png",
+    "description": "Indicates the middle part of a feature."
+  },
+  {
+    "id": "d1",
+    "ref": "1.1",
+    "name": "Terrace",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.1 - Terrace.png",
+    "description": "A flat area or strip of level ground interrupting a slope."
+  },
+  {
+    "id": "d2",
+    "ref": "1.2",
+    "name": "Spur",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.2 - Spur.png",
+    "description": "A contour projection or \"nose\" rising from the surrounding ground."
+  },
+  {
+    "id": "d3",
+    "ref": "1.3",
+    "name": "Re-entrant",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.3 - Re-entrant.png",
+    "description": "A gully or valley cutting into a slope."
+  },
+  {
+    "id": "d4",
+    "ref": "1.4",
+    "name": "Earth bank",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.4 - Earth_bank.png",
+    "description": "A distinct change in ground level."
+  },
+  {
+    "id": "d5",
+    "ref": "1.5",
+    "name": "Quarry",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.5 - Quarry.png",
+    "description": "An excavation where rock or minerals have been removed."
+  },
+  {
+    "id": "d6",
+    "ref": "1.6",
+    "name": "Earth wall",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.6 - Earth_wall.png",
+    "description": "A linear mound of earth."
+  },
+  {
+    "id": "d7",
+    "ref": "1.7",
+    "name": "Erosion gully",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.7 - Erosion_gully.png",
+    "description": "A channel formed by water erosion."
+  },
+  {
+    "id": "d8",
+    "ref": "1.8",
+    "name": "Small erosion gully",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.8 - Small_erosion.png",
+    "description": "A small channel formed by water erosion."
+  },
+  {
+    "id": "d9",
+    "ref": "1.9",
+    "name": "Hill",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.9 - Hill.png",
+    "description": "A raised area of land."
+  },
+  {
+    "id": "d10",
+    "ref": "1.10",
+    "name": "Knoll",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.10 - Knoll.png",
+    "description": "A small, rounded hill."
+  },
+  {
+    "id": "d11",
+    "ref": "1.11",
+    "name": "Saddle",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.11 - Saddle.png",
+    "description": "A depression between two hills."
+  },
+  {
+    "id": "d12",
+    "ref": "1.12",
+    "name": "Depression",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.12 - Depression.png",
+    "description": "A sunken or hollow area."
+  },
+  {
+    "id": "d13",
+    "ref": "1.13",
+    "name": "Small depression",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.13 - Small.png",
+    "description": "A small sunken or hollow area."
+  },
+  {
+    "id": "d14",
+    "ref": "1.14",
+    "name": "Pit",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.14 - Pit.png",
+    "description": "A hole in the ground."
+  },
+  {
+    "id": "d15",
+    "ref": "1.15",
+    "name": "Broken ground",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.15 - Broken_ground.png",
+    "description": "An area of uneven or rough terrain."
+  },
+  {
+    "id": "d16",
+    "ref": "1.16",
+    "name": "Ant hill (termite mound)",
+    "column": "Column D",
+    "type": "Landforms",
+    "image": "../../assets/Column_D - Landforms - 1.16 - Ant_hill__(ter-.png",
+    "description": "A mound created by ants or termites."
+  },
+  {
+    "id": "r1",
+    "ref": "2.2",
+    "name": "Rock Pillar",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.2 - Rock_Pillar.png",
+    "description": "A tall, vertical rock formation."
+  },
+  {
+    "id": "r2",
+    "ref": "2.3",
+    "name": "Cave",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.3 - Cave.png",
+    "description": "A natural underground chamber."
+  },
+  {
+    "id": "r3",
+    "ref": "2.4",
+    "name": "Boulder",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.4 - Boulder.png",
+    "description": "A large rock."
+  },
+  {
+    "id": "r4",
+    "ref": "2.5",
+    "name": "Boulder field",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.5 - Boulder_field.png",
+    "description": "An area covered with many boulders."
+  },
+  {
+    "id": "r5",
+    "ref": "2.6",
+    "name": "Boulder cluster",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.6 - Boulder.png",
+    "description": "A group of boulders close together."
+  },
+  {
+    "id": "r6",
+    "ref": "2.7",
+    "name": "Stony ground",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D -  - 2.7 - Stony_ground.png",
+    "description": "An area covered with many small stones."
+  },
+  {
+    "id": "r7",
+    "ref": "2.8",
+    "name": "Bare rock",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D -  - 2.8 - Bare_rock.png",
+    "description": "An area of exposed bedrock."
+  },
+  {
+    "id": "r8",
+    "ref": "2.10",
+    "name": "Trench",
+    "column": "Column D",
+    "type": "Rock_and_Boulders",
+    "image": "../../assets/Column_D - Rock_and_Boulders - 2.10 - Trench.png",
+    "description": "A long, narrow ditch."
+  },
+  {
+    "id": "w1",
+    "ref": "3.1",
+    "name": "Lake",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.1 - Lake.png",
+    "description": "A large body of water surrounded by land."
+  },
+  {
+    "id": "w2",
+    "ref": "3.2",
+    "name": "Pond",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.2 - Pond.png",
+    "description": "A small body of standing water."
+  },
+  {
+    "id": "w3",
+    "ref": "3.3",
+    "name": "Waterhole",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.3 - Waterhole.png",
+    "description": "A depression filled with water."
+  },
+  {
+    "id": "w4",
+    "ref": "3.4",
+    "name": "River",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.4 - River.png",
+    "description": "A large natural stream of water."
+  },
+  {
+    "id": "w5",
+    "ref": "3.5",
+    "name": "Minor water channel",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.5 - Minor_water.png",
+    "description": "A small stream or ditch with water."
+  },
+  {
+    "id": "w6",
+    "ref": "3.6",
+    "name": "Narrow marsh",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.6 - Narrow_marsh.png",
+    "description": "A thin strip of wetland."
+  },
+  {
+    "id": "w7",
+    "ref": "3.7",
+    "name": "Marsh",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.7 - Marsh.png",
+    "description": "An area of wet, soggy ground."
+  },
+  {
+    "id": "w8",
+    "ref": "3.8",
+    "name": "Firm ground in marsh",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.8 - Firm_ground_in.png",
+    "description": "A solid area within a marsh."
+  },
+  {
+    "id": "w9",
+    "ref": "3.9",
+    "name": "Well",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.9 - Well.png",
+    "description": "A shaft dug in the ground to obtain water."
+  },
+  {
+    "id": "w10",
+    "ref": "3.10",
+    "name": "Spring",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.10 - Spring.png",
+    "description": "A place where water naturally flows from the ground."
+  },
+  {
+    "id": "w11",
+    "ref": "3.11",
+    "name": "Water tank",
+    "column": "Column D",
+    "type": "Water_Features",
+    "image": "../../assets/Column_D - Water_Features - 3.11 - Water_tank.png",
+    "description": "A man-made container for storing water."
+  },
+  {
+    "id": "v1",
+    "ref": "4.1",
+    "name": "Open land",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.1 - Open_land.png",
+    "description": "An area with no trees or significant vegetation."
+  },
+  {
+    "id": "v2",
+    "ref": "4.2",
+    "name": "Semi-open land",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.2 - Semi-open.png",
+    "description": "An area with scattered trees or bushes."
+  },
+  {
+    "id": "v3",
+    "ref": "4.3",
+    "name": "Forest corner",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.3 - Forest_corner.png",
+    "description": "The edge or corner of a forested area."
+  },
+  {
+    "id": "v4",
+    "ref": "4.4",
+    "name": "Clearing",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.4 - Clearing.png",
+    "description": "An open area within a forest."
+  },
+  {
+    "id": "v5",
+    "ref": "4.5",
+    "name": "Thicket",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.5 - Thicket.png",
+    "description": "A dense group of bushes or small trees."
+  },
+  {
+    "id": "v6",
+    "ref": "4.6",
+    "name": "Linear thicket",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.6 - Linear_thicket.png",
+    "description": "A long, narrow area of dense vegetation."
+  },
+  {
+    "id": "v7",
+    "ref": "4.8",
+    "name": "Copse",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.8 - Copse.png",
+    "description": "A small group of trees."
+  },
+  {
+    "id": "v8",
+    "ref": "4.9",
+    "name": "Prominent tree",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.9 - Prominent_tree.png",
+    "description": "A notable or distinctive tree."
+  },
+  {
+    "id": "v9",
+    "ref": "4.10",
+    "name": "Prominent vegetation feature",
+    "column": "Column D",
+    "type": "Vegetation",
+    "image": "../../assets/Column_D - Vegetation - 4.10 - Prominent.png",
+    "description": "A distinctive vegetation feature, such as a tree stump or root stock."
+  },
+  {
+    "id": "m1",
+    "ref": "5.1",
+    "name": "Road",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.1 - Road.png",
+    "description": "A paved or maintained route for vehicles."
+  },
+  {
+    "id": "m2",
+    "ref": "5.2",
+    "name": "Track / Path",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.2 - Track_-_Path.png",
+    "description": "A route for pedestrians or light vehicles."
+  },
+  {
+    "id": "m3",
+    "ref": "5.3",
+    "name": "Ride",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.3 - Ride.png",
+    "description": "A linear clearing through a forest."
+  },
+  {
+    "id": "m4",
+    "ref": "5.4",
+    "name": "Bridge",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.4 - Bridge.png",
+    "description": "A structure spanning a gap or obstacle."
+  },
+  {
+    "id": "m5",
+    "ref": "5.5",
+    "name": "Power line",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.5 - Power_line.png",
+    "description": "Cables for transmitting electrical power."
+  },
+  {
+    "id": "m6",
+    "ref": "5.6",
+    "name": "Pylon",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.6 - Pylon.png",
+    "description": "A tall structure supporting power lines."
+  },
+  {
+    "id": "m7",
+    "ref": "5.7",
+    "name": "Tunnel",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.7 - Tunnel.png",
+    "description": "An underground passage."
+  },
+  {
+    "id": "m8",
+    "ref": "5.8",
+    "name": "Wall",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.8 - Wall.png",
+    "description": "A vertical structure dividing areas."
+  },
+  {
+    "id": "m9",
+    "ref": "5.10",
+    "name": "Crossing point",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.10 - Crossing_point.png",
+    "description": "A point where a feature can be crossed."
+  },
+  {
+    "id": "m10",
+    "ref": "5.11",
+    "name": "Building",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.11 - Building.png",
+    "description": "A permanent structure with walls and a roof."
+  },
+  {
+    "id": "m11",
+    "ref": "5.13",
+    "name": "Ruin",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.13 - Ruin.png",
+    "description": "The remains of a building or structure."
+  },
+  {
+    "id": "m12",
+    "ref": "5.14",
+    "name": "Prominent line feature",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.14 - Prominent.png",
+    "description": "A notable linear feature, such as a pipeline."
+  },
+  {
+    "id": "m13",
+    "ref": "5.15",
+    "name": "Tower / Pylon",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.15 - Tower_-_Pylon.png",
+    "description": "A tall structure or tower."
+  },
+  {
+    "id": "m14",
+    "ref": "5.16",
+    "name": "Shooting platform",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.16 - Shooting.png",
+    "description": "A raised platform for hunting."
+  },
+  {
+    "id": "m15",
+    "ref": "5.17",
+    "name": "Boundary stone",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.17 - Boundary.png",
+    "description": "A stone marking a boundary."
+  },
+  {
+    "id": "m16",
+    "ref": "5.18",
+    "name": "Fodder rack",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.18 - Fodder_rack.png",
+    "description": "A structure for feeding animals."
+  },
+  {
+    "id": "m17",
+    "ref": "5.19",
+    "name": "Charcoal burning ground",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.19 - Charcoal.png",
+    "description": "An area used for making charcoal."
+  },
+  {
+    "id": "m18",
+    "ref": "5.20",
+    "name": "Monument or Statue",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.20 - Monument_or.png",
+    "description": "A structure erected to commemorate a person or event."
+  },
+  {
+    "id": "m19",
+    "ref": "5.21",
+    "name": "Canopy",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.21 - Canopy.png",
+    "description": "A covered area or shelter."
+  },
+  {
+    "id": "m20",
+    "ref": "5.22",
+    "name": "Stairway",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.22 - Stairway.png",
+    "description": "A set of steps."
+  },
+  {
+    "id": "m21",
+    "ref": "5.23",
+    "name": "Out of Bounds area",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.23 - Out_of_Bounds.png",
+    "description": "An area that competitors are not allowed to enter."
+  },
+  {
+    "id": "m22",
+    "ref": "5.24",
+    "name": "Railway",
+    "column": "Column D",
+    "type": "Man-made_Features",
+    "image": "../../assets/Column_D - Man-made_Features - 5.24 - Railway.png",
+    "description": "A track for trains."
+  },
+  {
+    "id": "s1",
+    "ref": "6.1",
+    "name": "Prominent feature",
+    "column": "Column D",
+    "type": "Prominent_-_Special",
+    "image": "../../assets/Column_D - Prominent_-_Special - 6.1 - Prominent.png",
+    "description": "A notable feature not covered by other symbols."
+  },
+  {
+    "id": "s2",
+    "ref": "6.2",
+    "name": "Prominent feature",
+    "column": "Column D",
+    "type": "Prominent_-_Special",
+    "image": "../../assets/Column_D - Prominent_-_Special - 6.2 - Prominent.png",
+    "description": "A notable feature not covered by other symbols."
+  },
+  {
+    "id": "a1",
+    "ref": "8.1",
+    "name": "Low",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.1 - Low.png",
+    "description": "Indicates a feature that is low in height."
+  },
+  {
+    "id": "a2",
+    "ref": "8.2",
+    "name": "Shallow",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.2 - Shallow.png",
+    "description": "Indicates a feature that is not deep."
+  },
+  {
+    "id": "a3",
+    "ref": "8.3",
+    "name": "Deep",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.3 - Deep.png",
+    "description": "Indicates a feature that is deep."
+  },
+  {
+    "id": "a4",
+    "ref": "8.4",
+    "name": "Overgrown",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.4 - Overgrown.png",
+    "description": "Indicates a feature covered with vegetation."
+  },
+  {
+    "id": "a5",
+    "ref": "8.5",
+    "name": "Open",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.5 - Open.png",
+    "description": "Indicates a feature that is open or clear."
+  },
+  {
+    "id": "a6",
+    "ref": "8.6",
+    "name": "Rocky",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.6 - Rocky.png",
+    "description": "Indicates a feature with rocks or stones."
+  },
+  {
+    "id": "a7",
+    "ref": "8.7",
+    "name": "Marshy",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.7 - Marshy.png",
+    "description": "Indicates a feature that is marshy or boggy."
+  },
+  {
+    "id": "a8",
+    "ref": "8.8",
+    "name": "Sandy",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.8 - Sandy.png",
+    "description": "Indicates a feature with sand."
+  },
+  {
+    "id": "a9",
+    "ref": "8.9",
+    "name": "Needle leaved",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.9 - Needle_leaved.png",
+    "description": "Indicates coniferous trees."
+  },
+  {
+    "id": "a10",
+    "ref": "8.10",
+    "name": "Broad leaved",
+    "column": "Column E",
+    "type": "Appearance",
+    "image": "../../assets/Column_E - Appearance - 8.10 - Broad_leaved.png",
+    "description": "Indicates deciduous trees."
+  }
+]

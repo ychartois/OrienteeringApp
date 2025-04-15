@@ -8,7 +8,7 @@ This application aims to educate users on IOF control description symbols, enabl
 
 ## Features
 
-- **Symbol Library**: A comprehensive catalog of IOF symbols with detailed descriptions
+- **Symbol Library**: A comprehensive catalog of IOF symbols with detailed descriptions, search functionality, filtering by type, and results count display
 - **Interactive Quizzes**: Engaging quizzes to test symbol knowledge
 - **Control Sheet Simulator**: A tool to practice interpreting full control description sheets
 - **Progress Tracking**: Monitor user advancement and provide feedback
@@ -52,6 +52,25 @@ OrienteeringApp/
 - **Database**: MongoDB
 - **Authentication**: Firebase Authentication
 - **State Management**: Redux or Context API
+
+## Asset Management
+
+The app is configured to use assets directly from the `assets` directory:
+
+- Assets are bundled with the app for both web and mobile platforms
+- The webpack configuration includes an alias for the assets directory
+- The webpack dev server is configured to serve assets from the assets directory at the `/assets` path
+- The SymbolCard component handles both relative and absolute URLs for image sources
+- The utility function `getSymbolImagePath` in `frontend/src/utils/assetUtils.js` helps generate correct paths
+- Since the assets are small (less than 500KB) and don't change often, they're included directly in the app rather than being served from a separate server
+- The symbols data is stored in `frontend/src/data/symbols.json` for easy maintenance
+- The `assetUtils.js` file provides utility functions to work with the symbols data:
+  - `getAllSymbols()`: Get all symbols
+  - `getSymbolsByType(type)`: Get symbols by type
+  - `getSymbolById(id)`: Get a symbol by ID
+  - `getSymbolByRef(ref)`: Get a symbol by reference
+  - `getAllSymbolTypes()`: Get all unique symbol types
+  - `getAllSymbolColumns()`: Get all unique symbol columns
 
 ## Setup Instructions
 
