@@ -6,7 +6,8 @@
     "column": "Column C",
     "type": "Clarification",
     "image": "../../assets/Column_C - Clarification - 0.1 - Northern.png",
-    "description": "Indicates the northern part of a feature."
+    "description": "Indicates the northern part of a feature.",
+    "complexity": 2
   },
   {
     "id": "c2",
@@ -15,7 +16,8 @@
     "column": "Column C",
     "type": "Clarification",
     "image": "../../assets/Column_C - Clarification - 0.2 - South_Eastern.png",
-    "description": "Indicates the south-eastern part of a feature."
+    "description": "Indicates the south-eastern part of a feature.",
+    "complexity": 2
   },
   {
     "id": "c3",
@@ -24,7 +26,8 @@
     "column": "Column C",
     "type": "Clarification",
     "image": "../../assets/Column_C - Clarification - 0.3 - Upper.png",
-    "description": "Indicates the upper part of a feature."
+    "description": "Indicates the upper part of a feature.",
+    "complexity": 2
   },
   {
     "id": "c4",
@@ -33,7 +36,8 @@
     "column": "Column C",
     "type": "Clarification",
     "image": "../../assets/Column_C - Clarification - 0.4 - Lower.png",
-    "description": "Indicates the lower part of a feature."
+    "description": "Indicates the lower part of a feature.",
+    "complexity": 2
   },
   {
     "id": "c5",
@@ -42,7 +46,8 @@
     "column": "Column C",
     "type": "Clarification",
     "image": "../../assets/Column_C - Clarification - 0.5 - Middle.png",
-    "description": "Indicates the middle part of a feature."
+    "description": "Indicates the middle part of a feature.",
+    "complexity": 2
   },
   {
     "id": "d1",
@@ -51,7 +56,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.1 - Terrace.png",
-    "description": "A flat area or strip of level ground interrupting a slope."
+    "description": "A flat area or strip of level ground interrupting a slope.",
+    "complexity": 2
   },
   {
     "id": "d2",
@@ -60,7 +66,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.2 - Spur.png",
-    "description": "A contour projection or \"nose\" rising from the surrounding ground."
+    "description": "A contour projection or \"nose\" rising from the surrounding ground.",
+    "complexity": 1
   },
   {
     "id": "d3",
@@ -69,7 +76,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.3 - Re-entrant.png",
-    "description": "A gully or valley cutting into a slope."
+    "description": "A gully or valley cutting into a slope.",
+    "complexity": 2
   },
   {
     "id": "d4",
@@ -78,7 +86,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.4 - Earth_bank.png",
-    "description": "A distinct change in ground level."
+    "description": "A distinct change in ground level.",
+    "complexity": 2
   },
   {
     "id": "d5",
@@ -87,7 +96,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.5 - Quarry.png",
-    "description": "An excavation where rock or minerals have been removed."
+    "description": "An excavation where rock or minerals have been removed.",
+    "complexity": 2
   },
   {
     "id": "d6",
@@ -96,7 +106,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.6 - Earth_wall.png",
-    "description": "A linear mound of earth."
+    "description": "A linear mound of earth.",
+    "complexity": 2
   },
   {
     "id": "d7",
@@ -105,7 +116,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.7 - Erosion_gully.png",
-    "description": "A channel formed by water erosion."
+    "description": "A channel formed by water erosion.",
+    "complexity": 2
   },
   {
     "id": "d8",
@@ -114,7 +126,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.8 - Small_erosion.png",
-    "description": "A small channel formed by water erosion."
+    "description": "A small channel formed by water erosion.",
+    "complexity": 3
   },
   {
     "id": "d9",
@@ -123,7 +136,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.9 - Hill.png",
-    "description": "A raised area of land."
+    "description": "A raised area of land.",
+    "complexity": 1
   },
   {
     "id": "d10",
@@ -132,7 +146,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.10 - Knoll.png",
-    "description": "A small, rounded hill."
+    "description": "A small, rounded hill.",
+    "complexity": 2
   },
   {
     "id": "d11",
@@ -141,7 +156,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.11 - Saddle.png",
-    "description": "A depression between two hills."
+    "description": "A depression between two hills.",
+    "complexity": 3
   },
   {
     "id": "d12",
@@ -150,7 +166,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.12 - Depression.png",
-    "description": "A sunken or hollow area."
+    "description": "A sunken or hollow area.",
+    "complexity": 2
   },
   {
     "id": "d13",
@@ -159,7 +176,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.13 - Small.png",
-    "description": "A small sunken or hollow area."
+    "description": "A small sunken or hollow area.",
+    "complexity": 3
   },
   {
     "id": "d14",
@@ -168,7 +186,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.14 - Pit.png",
-    "description": "A hole in the ground."
+    "description": "A hole in the ground.",
+    "complexity": 2
   },
   {
     "id": "d15",
@@ -177,7 +196,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.15 - Broken_ground.png",
-    "description": "An area of uneven or rough terrain."
+    "description": "An area of uneven or rough terrain.",
+    "complexity": 2
   },
   {
     "id": "d16",
@@ -186,7 +206,8 @@
     "column": "Column D",
     "type": "Landforms",
     "image": "../../assets/Column_D - Landforms - 1.16 - Ant_hill__(ter-.png",
-    "description": "A mound created by ants or termites."
+    "description": "A mound created by ants or termites.",
+    "complexity": 3
   },
   {
     "id": "r1",
@@ -195,7 +216,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.2 - Rock_Pillar.png",
-    "description": "A tall, vertical rock formation."
+    "description": "A tall, vertical rock formation.",
+    "complexity": 2
   },
   {
     "id": "r2",
@@ -204,7 +226,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.3 - Cave.png",
-    "description": "A natural underground chamber."
+    "description": "A natural underground chamber.",
+    "complexity": 3
   },
   {
     "id": "r3",
@@ -213,7 +236,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.4 - Boulder.png",
-    "description": "A large rock."
+    "description": "A large rock.",
+    "complexity": 1
   },
   {
     "id": "r4",
@@ -222,7 +246,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.5 - Boulder_field.png",
-    "description": "An area covered with many boulders."
+    "description": "An area covered with many boulders.",
+    "complexity": 2
   },
   {
     "id": "r5",
@@ -231,7 +256,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.6 - Boulder.png",
-    "description": "A group of boulders close together."
+    "description": "A group of boulders close together.",
+    "complexity": 2
   },
   {
     "id": "r6",
@@ -240,7 +266,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D -  - 2.7 - Stony_ground.png",
-    "description": "An area covered with many small stones."
+    "description": "An area covered with many small stones.",
+    "complexity": 2
   },
   {
     "id": "r7",
@@ -249,7 +276,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D -  - 2.8 - Bare_rock.png",
-    "description": "An area of exposed bedrock."
+    "description": "An area of exposed bedrock.",
+    "complexity": 2
   },
   {
     "id": "r8",
@@ -258,7 +286,8 @@
     "column": "Column D",
     "type": "Rock_and_Boulders",
     "image": "../../assets/Column_D - Rock_and_Boulders - 2.10 - Trench.png",
-    "description": "A long, narrow ditch."
+    "description": "A long, narrow ditch.",
+    "complexity": 2
   },
   {
     "id": "w1",
@@ -267,7 +296,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.1 - Lake.png",
-    "description": "A large body of water surrounded by land."
+    "description": "A large body of water surrounded by land.",
+    "complexity": 1
   },
   {
     "id": "w2",
@@ -276,7 +306,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.2 - Pond.png",
-    "description": "A small body of standing water."
+    "description": "A small body of standing water.",
+    "complexity": 1
   },
   {
     "id": "w3",
@@ -285,7 +316,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.3 - Waterhole.png",
-    "description": "A depression filled with water."
+    "description": "A depression filled with water.",
+    "complexity": 2
   },
   {
     "id": "w4",
@@ -294,7 +326,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.4 - River.png",
-    "description": "A large natural stream of water."
+    "description": "A large natural stream of water.",
+    "complexity": 1
   },
   {
     "id": "w5",
@@ -303,7 +336,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.5 - Minor_water.png",
-    "description": "A small stream or ditch with water."
+    "description": "A small stream or ditch with water.",
+    "complexity": 2
   },
   {
     "id": "w6",
@@ -312,7 +346,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.6 - Narrow_marsh.png",
-    "description": "A thin strip of wetland."
+    "description": "A thin strip of wetland.",
+    "complexity": 3
   },
   {
     "id": "w7",
@@ -321,7 +356,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.7 - Marsh.png",
-    "description": "An area of wet, soggy ground."
+    "description": "An area of wet, soggy ground.",
+    "complexity": 2
   },
   {
     "id": "w8",
@@ -330,7 +366,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.8 - Firm_ground_in.png",
-    "description": "A solid area within a marsh."
+    "description": "A solid area within a marsh.",
+    "complexity": 3
   },
   {
     "id": "w9",
@@ -339,7 +376,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.9 - Well.png",
-    "description": "A shaft dug in the ground to obtain water."
+    "description": "A shaft dug in the ground to obtain water.",
+    "complexity": 2
   },
   {
     "id": "w10",
@@ -348,7 +386,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.10 - Spring.png",
-    "description": "A place where water naturally flows from the ground."
+    "description": "A place where water naturally flows from the ground.",
+    "complexity": 2
   },
   {
     "id": "w11",
@@ -357,7 +396,8 @@
     "column": "Column D",
     "type": "Water_Features",
     "image": "../../assets/Column_D - Water_Features - 3.11 - Water_tank.png",
-    "description": "A man-made container for storing water."
+    "description": "A man-made container for storing water.",
+    "complexity": 2
   },
   {
     "id": "v1",
@@ -366,7 +406,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.1 - Open_land.png",
-    "description": "An area with no trees or significant vegetation."
+    "description": "An area with no trees or significant vegetation.",
+    "complexity": 1
   },
   {
     "id": "v2",
@@ -375,7 +416,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.2 - Semi-open.png",
-    "description": "An area with scattered trees or bushes."
+    "description": "An area with scattered trees or bushes.",
+    "complexity": 2
   },
   {
     "id": "v3",
@@ -384,7 +426,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.3 - Forest_corner.png",
-    "description": "The edge or corner of a forested area."
+    "description": "The edge or corner of a forested area.",
+    "complexity": 2
   },
   {
     "id": "v4",
@@ -393,7 +436,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.4 - Clearing.png",
-    "description": "An open area within a forest."
+    "description": "An open area within a forest.",
+    "complexity": 2
   },
   {
     "id": "v5",
@@ -402,7 +446,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.5 - Thicket.png",
-    "description": "A dense group of bushes or small trees."
+    "description": "A dense group of bushes or small trees.",
+    "complexity": 2
   },
   {
     "id": "v6",
@@ -411,7 +456,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.6 - Linear_thicket.png",
-    "description": "A long, narrow area of dense vegetation."
+    "description": "A long, narrow area of dense vegetation.",
+    "complexity": 3
   },
   {
     "id": "v7",
@@ -420,7 +466,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.8 - Copse.png",
-    "description": "A small group of trees."
+    "description": "A small group of trees.",
+    "complexity": 2
   },
   {
     "id": "v8",
@@ -429,7 +476,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.9 - Prominent_tree.png",
-    "description": "A notable or distinctive tree."
+    "description": "A notable or distinctive tree.",
+    "complexity": 1
   },
   {
     "id": "v9",
@@ -438,7 +486,8 @@
     "column": "Column D",
     "type": "Vegetation",
     "image": "../../assets/Column_D - Vegetation - 4.10 - Prominent.png",
-    "description": "A distinctive vegetation feature, such as a tree stump or root stock."
+    "description": "A distinctive vegetation feature, such as a tree stump or root stock.",
+    "complexity": 2
   },
   {
     "id": "m1",
@@ -447,7 +496,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.1 - Road.png",
-    "description": "A paved or maintained route for vehicles."
+    "description": "A paved or maintained route for vehicles.",
+    "complexity": 1
   },
   {
     "id": "m2",
@@ -456,7 +506,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.2 - Track_-_Path.png",
-    "description": "A route for pedestrians or light vehicles."
+    "description": "A route for pedestrians or light vehicles.",
+    "complexity": 1
   },
   {
     "id": "m3",
@@ -465,7 +516,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.3 - Ride.png",
-    "description": "A linear clearing through a forest."
+    "description": "A linear clearing through a forest.",
+    "complexity": 2
   },
   {
     "id": "m4",
@@ -474,7 +526,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.4 - Bridge.png",
-    "description": "A structure spanning a gap or obstacle."
+    "description": "A structure spanning a gap or obstacle.",
+    "complexity": 1
   },
   {
     "id": "m5",
@@ -483,7 +536,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.5 - Power_line.png",
-    "description": "Cables for transmitting electrical power."
+    "description": "Cables for transmitting electrical power.",
+    "complexity": 2
   },
   {
     "id": "m6",
@@ -492,7 +546,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.6 - Pylon.png",
-    "description": "A tall structure supporting power lines."
+    "description": "A tall structure supporting power lines.",
+    "complexity": 2
   },
   {
     "id": "m7",
@@ -501,7 +556,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.7 - Tunnel.png",
-    "description": "An underground passage."
+    "description": "An underground passage.",
+    "complexity": 3
   },
   {
     "id": "m8",
@@ -510,7 +566,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.8 - Wall.png",
-    "description": "A vertical structure dividing areas."
+    "description": "A vertical structure dividing areas.",
+    "complexity": 2
   },
   {
     "id": "m9",
@@ -519,7 +576,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.10 - Crossing_point.png",
-    "description": "A point where a feature can be crossed."
+    "description": "A point where a feature can be crossed.",
+    "complexity": 2
   },
   {
     "id": "m10",
@@ -528,7 +586,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.11 - Building.png",
-    "description": "A permanent structure with walls and a roof."
+    "description": "A permanent structure with walls and a roof.",
+    "complexity": 1
   },
   {
     "id": "m11",
@@ -537,7 +596,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.13 - Ruin.png",
-    "description": "The remains of a building or structure."
+    "description": "The remains of a building or structure.",
+    "complexity": 2
   },
   {
     "id": "m12",
@@ -546,7 +606,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.14 - Prominent.png",
-    "description": "A notable linear feature, such as a pipeline."
+    "description": "A notable linear feature, such as a pipeline.",
+    "complexity": 2
   },
   {
     "id": "m13",
@@ -555,7 +616,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.15 - Tower_-_Pylon.png",
-    "description": "A tall structure or tower."
+    "description": "A tall structure or tower.",
+    "complexity": 2
   },
   {
     "id": "m14",
@@ -564,7 +626,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.16 - Shooting.png",
-    "description": "A raised platform for hunting."
+    "description": "A raised platform for hunting.",
+    "complexity": 3
   },
   {
     "id": "m15",
@@ -573,7 +636,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.17 - Boundary.png",
-    "description": "A stone marking a boundary."
+    "description": "A stone marking a boundary.",
+    "complexity": 3
   },
   {
     "id": "m16",
@@ -582,7 +646,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.18 - Fodder_rack.png",
-    "description": "A structure for feeding animals."
+    "description": "A structure for feeding animals.",
+    "complexity": 3
   },
   {
     "id": "m17",
@@ -591,7 +656,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.19 - Charcoal.png",
-    "description": "An area used for making charcoal."
+    "description": "An area used for making charcoal.",
+    "complexity": 3
   },
   {
     "id": "m18",
@@ -600,7 +666,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.20 - Monument_or.png",
-    "description": "A structure erected to commemorate a person or event."
+    "description": "A structure erected to commemorate a person or event.",
+    "complexity": 2
   },
   {
     "id": "m19",
@@ -609,7 +676,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.21 - Canopy.png",
-    "description": "A covered area or shelter."
+    "description": "A covered area or shelter.",
+    "complexity": 2
   },
   {
     "id": "m20",
@@ -618,7 +686,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.22 - Stairway.png",
-    "description": "A set of steps."
+    "description": "A set of steps.",
+    "complexity": 2
   },
   {
     "id": "m21",
@@ -627,7 +696,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.23 - Out_of_Bounds.png",
-    "description": "An area that competitors are not allowed to enter."
+    "description": "An area that competitors are not allowed to enter.",
+    "complexity": 1
   },
   {
     "id": "m22",
@@ -636,7 +706,8 @@
     "column": "Column D",
     "type": "Man-made_Features",
     "image": "../../assets/Column_D - Man-made_Features - 5.24 - Railway.png",
-    "description": "A track for trains."
+    "description": "A track for trains.",
+    "complexity": 1
   },
   {
     "id": "s1",
@@ -645,7 +716,8 @@
     "column": "Column D",
     "type": "Prominent_-_Special",
     "image": "../../assets/Column_D - Prominent_-_Special - 6.1 - Prominent.png",
-    "description": "A notable feature not covered by other symbols."
+    "description": "A notable feature not covered by other symbols.",
+    "complexity": 3
   },
   {
     "id": "s2",
@@ -654,7 +726,8 @@
     "column": "Column D",
     "type": "Prominent_-_Special",
     "image": "../../assets/Column_D - Prominent_-_Special - 6.2 - Prominent.png",
-    "description": "A notable feature not covered by other symbols."
+    "description": "A notable feature not covered by other symbols.",
+    "complexity": 3
   },
   {
     "id": "a1",
@@ -663,7 +736,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.1 - Low.png",
-    "description": "Indicates a feature that is low in height."
+    "description": "Indicates a feature that is low in height.",
+    "complexity": 2
   },
   {
     "id": "a2",
@@ -672,7 +746,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.2 - Shallow.png",
-    "description": "Indicates a feature that is not deep."
+    "description": "Indicates a feature that is not deep.",
+    "complexity": 2
   },
   {
     "id": "a3",
@@ -681,7 +756,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.3 - Deep.png",
-    "description": "Indicates a feature that is deep."
+    "description": "Indicates a feature that is deep.",
+    "complexity": 2
   },
   {
     "id": "a4",
@@ -690,7 +766,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.4 - Overgrown.png",
-    "description": "Indicates a feature covered with vegetation."
+    "description": "Indicates a feature covered with vegetation.",
+    "complexity": 2
   },
   {
     "id": "a5",
@@ -699,7 +776,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.5 - Open.png",
-    "description": "Indicates a feature that is open or clear."
+    "description": "Indicates a feature that is open or clear.",
+    "complexity": 2
   },
   {
     "id": "a6",
@@ -708,7 +786,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.6 - Rocky.png",
-    "description": "Indicates a feature with rocks or stones."
+    "description": "Indicates a feature with rocks or stones.",
+    "complexity": 2
   },
   {
     "id": "a7",
@@ -717,7 +796,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.7 - Marshy.png",
-    "description": "Indicates a feature that is marshy or boggy."
+    "description": "Indicates a feature that is marshy or boggy.",
+    "complexity": 2
   },
   {
     "id": "a8",
@@ -726,7 +806,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.8 - Sandy.png",
-    "description": "Indicates a feature with sand."
+    "description": "Indicates a feature with sand.",
+    "complexity": 2
   },
   {
     "id": "a9",
@@ -735,7 +816,8 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.9 - Needle_leaved.png",
-    "description": "Indicates coniferous trees."
+    "description": "Indicates coniferous trees.",
+    "complexity": 3
   },
   {
     "id": "a10",
@@ -744,6 +826,7 @@
     "column": "Column E",
     "type": "Appearance",
     "image": "../../assets/Column_E - Appearance - 8.10 - Broad_leaved.png",
-    "description": "Indicates deciduous trees."
+    "description": "Indicates deciduous trees.",
+    "complexity": 3
   }
 ]

@@ -11,6 +11,7 @@ export interface Symbol {
   type: string;
   image: string;
   description?: string;
+  complexity?: number;
 }
 
 /**
@@ -93,4 +94,166 @@ export const getAllSymbolTypes = (): string[] => {
 export const getAllSymbolColumns = (): string[] => {
   const columns = (symbolsData as Symbol[]).map(symbol => symbol.column);
   return [...new Set(columns)];
+};
+
+/**
+ * Get symbols by complexity
+ * @param complexity - The complexity level (1=Easy, 2=Medium, 3=Hard)
+ * @returns Array of symbol objects of the specified complexity
+ */
+export const getSymbolsByComplexity = (complexity: number): Symbol[] => {
+  return (symbolsData as Symbol[]).filter(symbol => symbol.complexity === complexity);
+};
+
+/**
+ * Get symbols by types and complexity
+ * @param types - Array of symbol types to include (e.g., ["Landforms", "Water_Features"])
+ * @param complexity - The complexity level (1=Easy, 2=Medium, 3=Hard)
+ * @returns Array of symbol objects matching the criteria
+ */
+export const getSymbolsByTypesAndComplexity = (types: string[], complexity: number): Symbol[] => {
+  return (symbolsData as Symbol[]).filter(symbol => 
+    (types.length === 0 || types.includes(symbol.type)) && 
+    symbol.complexity === complexity
+  );
+};
+
+/**
+ * Shuffle an array using Fisher-Yates algorithm
+ * @param array - The array to shuffle
+ * @returns A new shuffled array
+ */
+export const shuffleArray = <T>(array: T[]): T[] => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+};
+
+/**
+ * Get similar symbols for generating plausible distractors
+ * @param symbol - The target symbol
+ * @param count - Number of similar symbols to return
+ * @param excludeIds - Array of symbol IDs to exclude
+ * @returns Array of similar symbols
+ */
+export const getSimilarSymbols = (symbol: Symbol, count: number, excludeIds: string[] = []): Symbol[] => {
+  // First try to get symbols of the same type
+  let sameTypeSymbols = (symbolsData as Symbol[]).filter(s => 
+    s.id !== symbol.id && 
+    !excludeIds.includes(s.id) && 
+    s.type === symbol.type
+  );
+  
+  // If we don't have enough, add symbols from other types
+  if (sameTypeSymbols.length < count) {
+    const otherSymbols = (symbolsData as Symbol[]).filter(s => 
+      s.id !== symbol.id && 
+      !excludeIds.includes(s.id) && 
+      s.type !== symbol.type
+    );
+    
+    // Prioritize symbols with similar complexity
+    otherSymbols.sort((a, b) => {
+      const aDiff = Math.abs((a.complexity || 2) - (symbol.complexity || 2));
+      const bDiff = Math.abs((b.complexity || 2) - (symbol.complexity || 2));
+      return aDiff - bDiff;
+    });
+    
+    sameTypeSymbols = [...sameTypeSymbols, ...otherSymbols];
+  }
+  
+  // Shuffle and return the requested count
+  return shuffleArray(sameTypeSymbols).slice(0, count);
+};
+
+/**
+ * Generate a quiz question for a symbol
+ * @param symbol - The symbol to create a question for
+ * @param difficulty - The difficulty level (1=Easy, 2=Medium, 3=Hard)
+ * @returns A quiz question object
+ */
+export const generateQuizQuestion = (symbol: Symbol, difficulty: number): any => {
+  // Determine number of options based on difficulty
+  let optionCount = 4; // Default for medium
+  if (difficulty === 1) {
+    optionCount = Math.floor(Math.random() * 2) + 2; // 2-3 options for easy
+  } else if (difficulty === 3) {
+    optionCount = Math.floor(Math.random() * 2) + 5; // 5-6 options for hard
+  }
+  
+  // Get similar symbols for distractors
+  const distractors = getSimilarSymbols(symbol, optionCount - 1);
+  
+  // Create options array with correct answer and distractors
+  const options = [symbol.name, ...distractors.map(d => d.name)];
+  
+  // Shuffle options
+  const shuffledOptions = shuffleArray(options);
+  
+  // Create question
+  return {
+    id: `q-${symbol.id}`,
+    symbolId: symbol.id,
+    question: 'What does this symbol represent?',
+    options: shuffledOptions,
+    correctAnswer: symbol.name,
+    difficulty: difficulty,
+    explanation: `This symbol represents a ${symbol.name}, which is ${symbol.description}`
+  };
+};
+
+/**
+ * Generate quiz questions based on difficulty and symbol types
+ * @param difficulty - The difficulty level (1=Easy, 2=Medium, 3=Hard)
+ * @param types - Array of symbol types to include (empty array means all types)
+ * @param count - Number of questions to generate
+ * @returns Array of quiz questions
+ */
+export const generateQuizQuestions = (difficulty: number, types: string[] = [], count?: number): any[] => {
+  // Determine complexity based on difficulty
+  let complexities: number[] = [];
+  
+  if (difficulty === 1) { // Easy
+    complexities = [1]; // Only easy symbols
+    count = count || 10; // Default 10 questions for easy
+  } else if (difficulty === 2) { // Medium
+    complexities = [1, 2]; // Easy and medium symbols
+    count = count || 15; // Default 15 questions for medium
+  } else { // Hard
+    complexities = [2, 3]; // Medium and hard symbols
+    count = count || 20; // Default 20 questions for hard
+  }
+  
+  // Get eligible symbols
+  let eligibleSymbols: Symbol[] = [];
+  
+  complexities.forEach(complexity => {
+    if (types.length === 0) {
+      // If no types specified, get all symbols of this complexity
+      eligibleSymbols = [...eligibleSymbols, ...getSymbolsByComplexity(complexity)];
+    } else {
+      // Otherwise, get symbols of specified types and complexity
+      eligibleSymbols = [...eligibleSymbols, ...getSymbolsByTypesAndComplexity(types, complexity)];
+    }
+  });
+  
+  // If we don't have enough eligible symbols, add more from other complexities
+  if (eligibleSymbols.length < count) {
+    const allSymbols = getAllSymbols();
+    const remainingSymbols = allSymbols.filter(s => 
+      !eligibleSymbols.some(es => es.id === s.id) && 
+      (types.length === 0 || types.includes(s.type))
+    );
+    
+    eligibleSymbols = [...eligibleSymbols, ...remainingSymbols];
+  }
+  
+  // Shuffle and limit to requested count
+  const selectedSymbols = shuffleArray(eligibleSymbols).slice(0, count);
+  
+  // Generate questions
+  return selectedSymbols.map(symbol => generateQuizQuestion(symbol, difficulty));
 };
