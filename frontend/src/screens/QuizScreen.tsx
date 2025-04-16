@@ -13,34 +13,13 @@ import {
   ProgressBar,
   Icon
 } from 'react-native-paper';
-import { QuizDifficulty } from '../data/quizQuestions';
+import { QuizDifficulty, Symbol, QuizQuestion } from '../types';
 import { 
   getSymbolById, 
   generateQuizQuestions, 
   getAllSymbolTypes,
   shuffleArray
 } from '../utils/assetUtils';
-
-interface Symbol {
-  id: string;
-  ref: string;
-  name: string;
-  column: string;
-  type: string;
-  image: string;
-  description?: string;
-  complexity?: number;
-}
-
-interface QuizQuestion {
-  id: string;
-  symbolId: string;
-  question: string;
-  options: string[];
-  correctAnswer: string;
-  difficulty: number | QuizDifficulty;
-  explanation?: string;
-}
 
 interface QuizScreenProps {
   navigation: any; // In a real app, we would use proper typing from react-navigation

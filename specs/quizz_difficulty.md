@@ -9,8 +9,8 @@
 
 ### 2. **Time Limits per Question**
 - **Easy:** Unlimited time  
-- **Medium:** 60 seconds per question  
-- **Hard:** 20 seconds  
+- **Medium:** 30 seconds per question  
+- **Hard:** 15 seconds  
 
 ---
 
