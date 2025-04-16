@@ -51,6 +51,7 @@ module.exports = {
     extensions: ['.web.js', '.js', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json'],
     alias: {
       'react-native$': 'react-native-web',
+      // More specific alias to catch the import from react-native-paper
       'react-native-vector-icons/MaterialCommunityIcons': path.resolve(__dirname, 'src/utils/MaterialCommunityIcons.js'),
       'react-native-vector-icons': 'react-native-vector-icons/dist',
       '@components': path.resolve(__dirname, 'src/components'),
@@ -73,8 +74,14 @@ module.exports = {
       {
         directory: path.join(__dirname, 'public'),
       },
+      // Serve assets from root level during transition
       {
         directory: path.join(__dirname, '..', 'assets'),
+        publicPath: '/assets',
+      },
+      // Serve assets from frontend/src/assets for new location
+      {
+        directory: path.join(__dirname, 'src', 'assets'),
         publicPath: '/assets',
       }
     ],

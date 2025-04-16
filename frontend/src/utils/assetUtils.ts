@@ -44,6 +44,19 @@ export const getSymbolImagePath = (symbolRef: string, symbolType: string, symbol
 };
 
 /**
+ * Get a portable path to an asset regardless of platform
+ * @param imageName - The name of the image file
+ * @returns The path to the image that works in both web and native
+ */
+export const getAssetPath = (imagePath: string): string => {
+  // For images moved to frontend/src/assets
+  if (imagePath.includes('../../assets')) {
+    return imagePath.replace('../../assets', '/assets');
+  }
+  return imagePath;
+};
+
+/**
  * Get all symbols with their metadata and image paths
  * @returns Array of symbol objects
  */
