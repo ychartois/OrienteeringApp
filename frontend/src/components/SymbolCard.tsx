@@ -28,8 +28,7 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
           />
         </View>
         <View style={styles.content}>
-          <Title style={{ color: theme.colors.onSurface }}>{symbol.name}</Title>
-          <Text style={[styles.type, { color: theme.colors.onSurfaceVariant }]}>{symbol.type}</Text>
+          <Title style={{ color: theme.colors.onSurface }}>{symbol.ref} - {symbol.name}</Title>
           {symbol.description && (
             <Paragraph style={{ color: theme.colors.onSurfaceVariant }} numberOfLines={2}>
               {symbol.description}
