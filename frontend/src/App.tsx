@@ -3,18 +3,24 @@ import { SafeAreaView, StatusBar, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import { MD3Theme } from 'react-native-paper';
 import SymbolLibraryScreen from './screens/SymbolLibraryScreen';
 import QuizScreen from './screens/QuizScreen';
 
-const Stack = createStackNavigator();
+// Define the app stack navigator params
+type RootStackParamList = {
+  SymbolLibrary: undefined;
+  Quiz: undefined;
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
 
 // Define the app theme
-const theme = {
+const theme: MD3Theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
     primary: '#0066CC',
-    accent: '#FF6B6B',
     background: '#F5F5F5',
   },
 };
