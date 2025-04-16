@@ -20,8 +20,19 @@ import {
   getSymbolById, 
   generateQuizQuestions, 
   getAllSymbolTypes,
-  shuffleArray
+  shuffleArray,
+  getAllSymbols
+  // Remove getTotalSymbolCount and getSymbolCountByType imports
 } from '../utils/assetUtils';
+
+// Add local utility functions to avoid import issues
+const countSymbolsByType = (type: string): number => {
+  return getAllSymbols().filter(symbol => symbol.type === type).length;
+};
+
+const getTotalSymbolCount = (): number => {
+  return getAllSymbols().length;
+};
 
 interface QuizScreenProps {
   navigation: any;
@@ -42,6 +53,7 @@ interface QuizScreenState {
   score: number;
   quizSetupComplete: boolean;
   quizCompleted: boolean;
+  hasReducedQuestions?: boolean; // Added missing property
 }
 
 class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
@@ -86,15 +98,30 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
         difficulty === QuizDifficulty.EASY ? 1 : 
         difficulty === QuizDifficulty.MEDIUM ? 2 : 3;
       
+      // Set number of questions based on difficulty
+      let questionCount = 10; // Easy
+      if (difficulty === QuizDifficulty.MEDIUM) {
+        questionCount = 15;
+      } else if (difficulty === QuizDifficulty.HARD) {
+        questionCount = 20;
+      }
+      
       // Generate questions
       const questions = generateQuizQuestions(difficultyLevel, selectedTypes, 0);
       
-      // Sort questions randomly
-      const shuffledQuestions = shuffleArray(questions);
+      // Ensure we have the correct number of questions
+      let shuffledQuestions = shuffleArray([...questions]);
+      if (shuffledQuestions.length > questionCount) {
+        shuffledQuestions = shuffledQuestions.slice(0, questionCount);
+      }
+      
+      // If we don't have enough questions, add a message
+      const hasReducedQuestions = shuffledQuestions.length < questionCount;
       
       // Set state
       this.setState({
         questions: shuffledQuestions,
+        hasReducedQuestions,
         currentQuestionIndex: 0,
         selectedAnswer: null,
         isAnswerSubmitted: false,
@@ -167,6 +194,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
   
   handleRestartQuiz = () => {
     this.setState({
+      quizSetupComplete: false,  // Go back to quiz setup screen to create a new quiz
       currentQuestionIndex: 0,
       selectedAnswer: null,
       isAnswerSubmitted: false,
@@ -199,6 +227,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     const { selectedTypes } = this.state;
     const { theme } = this.props;
     const allTypes = getAllSymbolTypes();
+    const totalSymbolCount = getTotalSymbolCount();
     
     const renderIcon = (isSelected: boolean, size: number = 20) => (
       <IconButton
@@ -212,9 +241,11 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     return (
       <View style={styles.typeFilterContainer}>
         <Text style={[styles.filterLabel, { color: theme.colors.onBackground }]}>Filter by symbol types:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.typeScrollView}>
-          <View style={styles.typeChipContainer}>
-            {allTypes.map((type: string) => (
+        
+        <View style={styles.typeChipContainer}>
+          {allTypes.map((type: string) => {
+            const symbolCount = countSymbolsByType(type);
+            return (
               <Chip
                 key={type}
                 selected={selectedTypes.includes(type)}
@@ -223,11 +254,11 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
                 selectedColor={theme.colors.primary}
                 avatar={renderIcon(selectedTypes.includes(type))}
               >
-                {type.replace(/_/g, ' ')}
+                {type.replace(/_/g, ' ')} ({symbolCount})
               </Chip>
-            ))}
-          </View>
-        </ScrollView>
+            );
+          })}
+        </View>
         
         <View style={styles.filterActionsContainer}>
           <Button
@@ -248,8 +279,10 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
           
           <Text style={[styles.helperText, { color: theme.colors.onSurfaceVariant }]}>
             {selectedTypes.length === 0 
-              ? "All symbol types will be included" 
-              : `${selectedTypes.length} symbol type${selectedTypes.length === 1 ? '' : 's'} selected`}
+              ? `All symbol types will be included (${totalSymbolCount} symbols)` 
+              : selectedTypes.length === 1
+                ? `${selectedTypes.length} symbol type selected (${selectedTypes.map(t => countSymbolsByType(t)).reduce((a, b) => a + b, 0)} symbols)`
+                : `${selectedTypes.length} symbol types selected (${selectedTypes.map(t => countSymbolsByType(t)).reduce((a, b) => a + b, 0)} symbols)`}
           </Text>
         </View>
       </View>
@@ -381,7 +414,9 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
       currentQuestionIndex, 
       selectedAnswer, 
       isAnswerSubmitted,
-      timeIsUp
+      timeIsUp,
+      hasReducedQuestions,
+      difficulty
     } = this.state;
     const { theme } = this.props;
     
@@ -391,6 +426,14 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
           No questions available for this difficulty level.
         </Text>
       );
+    }
+    
+    // Get expected question count
+    let expectedQuestionCount = 10; // Default for Easy
+    if (difficulty === QuizDifficulty.MEDIUM) {
+      expectedQuestionCount = 15;
+    } else if (difficulty === QuizDifficulty.HARD) {
+      expectedQuestionCount = 20;
     }
     
     const currentQuestion = questions[currentQuestionIndex];
@@ -409,6 +452,12 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
         <Text style={[styles.questionCounter, { color: theme.colors.onSurfaceVariant }]}>
           Question {currentQuestionIndex + 1} of {questions.length}
         </Text>
+        
+        {hasReducedQuestions && (
+          <Text style={[styles.warningText, { color: '#ffc107' /* Amber color for warning */ }]}>
+            Only {questions.length} of {expectedQuestionCount} questions available for the selected filters.
+          </Text>
+        )}
         
         <View style={styles.symbolContainer}>
           <Image 
@@ -691,12 +740,17 @@ const styles = StyleSheet.create({
   typeScrollView: {
     marginBottom: 8,
   },
+  typeScrollViewContent: {
+    paddingRight: 16,
+  },
   typeChipContainer: {
     flexDirection: 'row',
     paddingVertical: 4,
+    flexWrap: 'wrap',
   },
   typeChip: {
     marginRight: 8,
+    marginBottom: 8, // Add bottom margin to create spacing between lines
   },
   filterActionsContainer: {
     marginTop: 8,
@@ -813,6 +867,11 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 10,
     fontSize: 16,
+  },
+  warningText: {
+    fontSize: 14,
+    marginBottom: 16,
+    textAlign: 'center',
   },
 });
 

@@ -257,3 +257,20 @@ export const generateQuizQuestions = (difficulty: number, types: string[] = [], 
   // Generate questions
   return selectedSymbols.map(symbol => generateQuizQuestion(symbol, difficulty));
 };
+
+/**
+ * Get the count of symbols by type
+ * @param type - The type of symbols to count
+ * @returns The count of symbols of the specified type
+ */
+export function getSymbolCountByType(type: string): number {
+  return getAllSymbols().filter(symbol => symbol.type === type).length;
+}
+
+/**
+ * Get total number of symbols
+ * @returns The total count of symbols
+ */
+export function getTotalSymbolCount(): number {
+  return getAllSymbols().length;
+}

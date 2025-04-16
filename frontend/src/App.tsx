@@ -78,7 +78,18 @@ const App = () => {
             <Stack.Screen 
               name="Quiz" 
               component={QuizScreen} 
-              options={{ title: 'Symbol Quiz' }}
+              options={({ navigation }) => ({
+                title: 'Symbol Quiz',
+                headerLeft: () => (
+                  <IconButton
+                    icon="arrow-left"
+                    iconColor={theme.colors.onPrimary}
+                    size={24}
+                    onPress={() => navigation.goBack()}
+                    style={styles.headerButton}
+                  />
+                )
+              })}
             />
           </Stack.Navigator>
         </SafeAreaView>
@@ -93,6 +104,9 @@ const styles = StyleSheet.create({
   },
   themeToggle: {
     marginRight: 8,
+  },
+  headerButton: {
+    marginLeft: 8,
   }
 });
 
