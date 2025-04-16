@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { Text, ActivityIndicator, Title, Divider, Button, Modal, Portal, IconButton, Icon } from 'react-native-paper';
+import { Text, ActivityIndicator, Title, Divider, Button, Modal, Portal, IconButton, withTheme } from 'react-native-paper';
 import SymbolCard from '../components/SymbolCard';
 import { getAllSymbols, getAllSymbolTypes } from '../utils/assetUtils';
-
-interface Symbol {
-  id: string;
-  ref: string;
-  name: string;
-  column: string;
-  type: string;
-  image: string;
-  description?: string;
-}
+import { Symbol } from '../types';
 
 interface SymbolLibraryScreenProps {
   navigation: any; // In a real app, we would use proper typing from react-navigation
+  theme: ReactNativePaper.Theme; // Theme prop
 }
 
 interface SymbolLibraryScreenState {
@@ -47,7 +39,6 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
   }
 
   componentDidMount() {
-    // Simulate API call
     this.fetchSymbols();
   }
 
@@ -57,14 +48,14 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
       // const response = await fetch('api/symbols');
       // const data = await response.json();
       
-        // Using local assets
-        setTimeout(() => {
-          this.setState({
-            symbols: appSymbols,
-            filteredSymbols: appSymbols,
-            loading: false
-          });
-        }, 1000);
+      // Using local assets
+      setTimeout(() => {
+        this.setState({
+          symbols: appSymbols,
+          filteredSymbols: appSymbols,
+          loading: false
+        });
+      }, 1000);
     } catch (err) {
       this.setState({
         error: 'Failed to fetch symbols',
@@ -121,34 +112,36 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
 
   render() {
     const { filteredSymbols, loading, error, searchQuery, selectedType, typeMenuVisible } = this.state;
+    const { theme } = this.props;
 
     if (loading) {
       return (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#0066CC" animating={true} />
-          <Text style={styles.loadingText}>Loading symbols...</Text>
+        <View style={[styles.centered, { backgroundColor: theme.colors.background }]}>
+          <ActivityIndicator size="large" color={theme.colors.primary} animating={true} />
+          <Text style={[styles.loadingText, { color: theme.colors.onBackground }]}>Loading symbols...</Text>
         </View>
       );
     }
 
     if (error) {
       return (
-        <View style={styles.centered}>
-          <Text style={styles.errorText}>{error}</Text>
+        <View style={[styles.centered, { backgroundColor: theme.colors.background }]}>
+          <Text style={[styles.errorText, { color: theme.colors.error }]}>{error}</Text>
         </View>
       );
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <View style={styles.headerContainer}>
-          <Title style={styles.header}>IOF Control Description Symbols</Title>
+          <Title style={[styles.header, { color: theme.colors.onBackground }]}>IOF Control Description Symbols</Title>
           <Divider />
           <View style={styles.quizButtonContainer}>
             <Button 
               mode="contained" 
               onPress={() => this.props.navigation.navigate('Quiz')}
               style={styles.quizButton}
+              icon="play"
             >
               Take a Quiz
             </Button>
@@ -157,29 +150,39 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
         
         <View style={styles.filterContainer}>
           <View style={styles.searchBarWrapper}>
-          <View style={styles.searchBar}>
-            <Icon source="magnify" size={20} color="#888" />
+          <View style={[styles.searchBar, { backgroundColor: theme.colors.surface }]}>
+            <IconButton
+              icon="magnify" 
+              size={20}
+              iconColor={theme.colors.onSurfaceVariant}
+              style={{ margin: 0, padding: 0 }}
+            />
             <TextInput
               placeholder="Search symbols..."
               onChangeText={this.handleSearch}
               value={searchQuery}
-              style={styles.searchInput}
-              placeholderTextColor="#888"
+              style={[styles.searchInput, { color: theme.colors.onSurface }]}
+              placeholderTextColor={theme.colors.onSurfaceVariant}
               returnKeyType="search"
             />
             {searchQuery.length > 0 && (
               <TouchableOpacity 
-                style={styles.clearButton}
+                style={[styles.clearButton, { backgroundColor: theme.colors.surfaceVariant }]}
                 onPress={() => this.handleSearch('')}
               >
-                <Icon source="close" size={16} color="#666" />
+                <IconButton
+                  icon="close"
+                  size={16}
+                  iconColor={theme.colors.onSurfaceVariant}
+                  style={{ margin: 0, padding: 0 }}
+                />
               </TouchableOpacity>
             )}
           </View>
           </View>
           
           <Button 
-            mode="contained" 
+            mode="outlined" 
             onPress={this.toggleTypeMenu}
             style={styles.filterButton}
             labelStyle={styles.filterButtonLabel}
@@ -192,15 +195,16 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
             <Modal 
               visible={typeMenuVisible} 
               onDismiss={this.toggleTypeMenu}
-              contentContainerStyle={styles.modalContainer}
+              contentContainerStyle={[styles.modalContainer, { backgroundColor: theme.colors.surface }]}
             >
               <View style={styles.modalHeader}>
-                <Text style={styles.modalTitle}>Select Symbol Type</Text>
+                <Text style={[styles.modalTitle, { color: theme.colors.onSurface }]}>Select Symbol Type</Text>
                 <IconButton
                   icon="close"
                   size={20}
                   onPress={this.toggleTypeMenu}
                   style={styles.closeButton}
+                  iconColor={theme.colors.onSurface}
                 />
               </View>
               
@@ -210,18 +214,24 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
                 <TouchableOpacity
                   style={[
                     styles.typeItem,
-                    selectedType === null && styles.selectedTypeItem
+                    selectedType === null && [styles.selectedTypeItem, { backgroundColor: theme.colors.primaryContainer }]
                   ]}
                   onPress={() => this.handleTypeSelect(null)}
                 >
                   <Text style={[
                     styles.typeText,
-                    selectedType === null && styles.selectedTypeText
+                    { color: theme.colors.onSurface },
+                    selectedType === null && [styles.selectedTypeText, { color: theme.colors.primary }]
                   ]}>
                     All Types
                   </Text>
                   {selectedType === null && (
-                    <Icon source="check" size={18} color="#007BFF" />
+                    <IconButton
+                      icon="check"
+                      size={18}
+                      iconColor={theme.colors.primary}
+                      style={{ margin: 0 }}
+                    />
                   )}
                 </TouchableOpacity>
                 
@@ -232,18 +242,24 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
                     key={type}
                     style={[
                       styles.typeItem,
-                      selectedType === type && styles.selectedTypeItem
+                      selectedType === type && [styles.selectedTypeItem, { backgroundColor: theme.colors.primaryContainer }]
                     ]}
                     onPress={() => this.handleTypeSelect(type)}
                   >
                     <Text style={[
                       styles.typeText,
-                      selectedType === type && styles.selectedTypeText
+                      { color: theme.colors.onSurface },
+                      selectedType === type && [styles.selectedTypeText, { color: theme.colors.primary }]
                     ]}>
                       {type.replace(/_/g, ' ')}
                     </Text>
                     {selectedType === type && (
-                      <Icon source="check" size={18} color="#007BFF" />
+                      <IconButton
+                        icon="check"
+                        size={18}
+                        iconColor={theme.colors.primary}
+                        style={{ margin: 0 }}
+                      />
                     )}
                   </TouchableOpacity>
                 ))}
@@ -253,7 +269,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
         </View>
         
         <View style={styles.resultsCountContainer}>
-          <Text style={styles.resultsCount}>
+          <Text style={[styles.resultsCount, { color: theme.colors.onSurfaceVariant }]}>
             {filteredSymbols.length} {filteredSymbols.length === 1 ? 'result' : 'results'} found
           </Text>
         </View>
@@ -265,10 +281,11 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
             <SymbolCard 
               symbol={item} 
               onPress={() => this.handleSymbolPress(item)}
+              theme={this.props.theme}
             />
           )}
           ListEmptyComponent={
-            <Text style={styles.emptyText}>No symbols found</Text>
+            <Text style={[styles.emptyText, { color: theme.colors.onSurfaceVariant }]}>No symbols found</Text>
           }
         />
       </View>
@@ -279,7 +296,6 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   centered: {
     flex: 1,
@@ -319,12 +335,10 @@ const styles = StyleSheet.create({
     shadowRadius: 3,
     elevation: 3,
     borderRadius: 8,
-    backgroundColor: '#FFFFFF',
   },
   searchBar: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     paddingHorizontal: 12,
     height: 44,
@@ -332,15 +346,14 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: '#333',
     height: '100%',
     padding: 0,
+    marginLeft: 8,
   },
   clearButton: {
     width: 24,
     height: 24,
     borderRadius: 12,
-    backgroundColor: '#e0e0e0',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -355,7 +368,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   modalContainer: {
-    backgroundColor: 'white',
     margin: 20,
     borderRadius: 12,
     maxHeight: '70%',
@@ -378,7 +390,6 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     margin: 0,
-    backgroundColor: '#f0f0f0',
   },
   typeList: {
     maxHeight: 400,
@@ -391,13 +402,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   selectedTypeItem: {
-    backgroundColor: 'rgba(0, 123, 255, 0.1)',
   },
   typeText: {
     fontSize: 16,
   },
   selectedTypeText: {
-    color: '#007BFF',
     fontWeight: 'bold',
   },
   resultsCountContainer: {
@@ -406,24 +415,21 @@ const styles = StyleSheet.create({
   },
   resultsCount: {
     fontSize: 14,
-    color: '#666',
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
   },
   errorText: {
     fontSize: 16,
-    color: 'red',
     textAlign: 'center',
   },
   emptyText: {
     fontSize: 16,
-    color: '#666',
     textAlign: 'center',
     padding: 20,
   },
 });
 
-export default SymbolLibraryScreen;
+// Wrap the component with withTheme to provide the theme prop
+export default withTheme(SymbolLibraryScreen);

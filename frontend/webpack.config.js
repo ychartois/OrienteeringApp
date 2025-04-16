@@ -51,7 +51,7 @@ module.exports = {
     extensions: ['.web.js', '.js', '.web.ts', '.ts', '.web.tsx', '.tsx', '.json'],
     alias: {
       'react-native$': 'react-native-web',
-      'react-native-vector-icons/MaterialCommunityIcons': path.resolve(__dirname, 'src/web/MaterialCommunityIcons.js'),
+      'react-native-vector-icons/MaterialCommunityIcons': path.resolve(__dirname, 'src/utils/MaterialCommunityIcons.js'),
       'react-native-vector-icons': 'react-native-vector-icons/dist',
       '@components': path.resolve(__dirname, 'src/components'),
       '@screens': path.resolve(__dirname, 'src/screens'),

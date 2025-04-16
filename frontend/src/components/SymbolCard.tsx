@@ -1,26 +1,22 @@
 import * as React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { Card, Title, Paragraph, Text } from 'react-native-paper';
-
-interface Symbol {
-  ref: string;
-  name: string;
-  column: string;
-  type: string;
-  image: string;
-  description?: string;
-}
+import { Card, Title, Paragraph, Text, withTheme } from 'react-native-paper';
+import { Symbol } from '../types';
 
 interface SymbolCardProps {
   symbol: Symbol;
-  onPress?: () => void;
+  onPress: () => void;
+  theme: ReactNativePaper.Theme;
 }
 
-const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress }) => {
+const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
   return (
-    <Card style={styles.card} onPress={onPress}>
+    <Card 
+      style={[styles.card, { backgroundColor: theme.colors.surface }]} 
+      onPress={onPress}
+    >
       <Card.Content style={styles.cardContent}>
-        <View style={styles.imageContainer}>
+        <View style={[styles.imageContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
           <Image 
             source={
               symbol.image.startsWith('http') 
@@ -32,10 +28,10 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress }) => {
           />
         </View>
         <View style={styles.content}>
-          <Title>{symbol.name}</Title>
-          <Text style={styles.type}>{symbol.type}</Text>
+          <Title style={{ color: theme.colors.onSurface }}>{symbol.name}</Title>
+          <Text style={[styles.type, { color: theme.colors.onSurfaceVariant }]}>{symbol.type}</Text>
           {symbol.description && (
-            <Paragraph numberOfLines={2}>
+            <Paragraph style={{ color: theme.colors.onSurfaceVariant }} numberOfLines={2}>
               {symbol.description}
             </Paragraph>
           )}
@@ -57,7 +53,6 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 4,
-    backgroundColor: '#F5F5F5',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
@@ -72,14 +67,12 @@ const styles = StyleSheet.create({
   },
   reference: {
     fontSize: 12,
-    color: '#666',
     marginBottom: 4,
   },
   type: {
     fontSize: 14,
-    color: '#444',
     marginBottom: 4,
   },
 });
 
-export default SymbolCard;
+export default withTheme(SymbolCard);

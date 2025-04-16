@@ -11,8 +11,10 @@ import {
   ActivityIndicator,
   Chip,
   ProgressBar,
-  Icon
+  IconButton,
+  withTheme
 } from 'react-native-paper';
+// Remove MaterialCommunityIcons import
 import { QuizDifficulty, Symbol, QuizQuestion } from '../types';
 import { 
   getSymbolById, 
@@ -22,81 +24,282 @@ import {
 } from '../utils/assetUtils';
 
 interface QuizScreenProps {
-  navigation: any; // In a real app, we would use proper typing from react-navigation
-  route: {
-    params?: {
-      difficulty?: QuizDifficulty;
-    }
-  };
+  navigation: any;
+  theme: ReactNativePaper.Theme;
 }
 
 interface QuizScreenState {
   difficulty: QuizDifficulty;
+  selectedTypes: string[];
   questions: QuizQuestion[];
   currentQuestionIndex: number;
   selectedAnswer: string | null;
   isAnswerSubmitted: boolean;
-  score: number;
-  quizCompleted: boolean;
-  loading: boolean;
-  selectedTypes: string[];
-  quizSetupComplete: boolean;
   timeRemaining: number | null;
   timerInterval: NodeJS.Timeout | null;
   timeIsUp: boolean;
+  loading: boolean;
+  score: number;
+  quizSetupComplete: boolean;
+  quizCompleted: boolean;
 }
 
 class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
   constructor(props: QuizScreenProps) {
     super(props);
-    
-    // Get difficulty from route params or default to EASY
-    const difficulty = props.route.params?.difficulty || QuizDifficulty.EASY;
-    
     this.state = {
-      difficulty,
+      difficulty: QuizDifficulty.EASY,
+      selectedTypes: [],
       questions: [],
       currentQuestionIndex: 0,
       selectedAnswer: null,
       isAnswerSubmitted: false,
-      score: 0,
-      quizCompleted: false,
-      loading: true,
-      selectedTypes: [],
-      quizSetupComplete: false,
       timeRemaining: null,
       timerInterval: null,
-      timeIsUp: false
+      timeIsUp: false,
+      loading: false,
+      score: 0,
+      quizSetupComplete: false,
+      quizCompleted: false
     };
   }
-
-  componentDidMount() {
-    // Just set loading to false, don't load questions yet
-    this.setState({ loading: false });
+  
+  componentWillUnmount() {
+    this.clearTimer();
   }
-
-  loadQuestions = () => {
+  
+  clearTimer = () => {
+    if (this.state.timerInterval) {
+      clearInterval(this.state.timerInterval);
+    }
+  };
+  
+  loadQuestions = async () => {
     const { difficulty, selectedTypes } = this.state;
     
-    // Convert difficulty enum to number
-    let difficultyNumber = 1; // Default to Easy
-    if (difficulty === QuizDifficulty.MEDIUM) {
-      difficultyNumber = 2;
-    } else if (difficulty === QuizDifficulty.HARD) {
-      difficultyNumber = 3;
+    // Show loading indicator
+    this.setState({ loading: true });
+    
+    try {
+      // Convert difficulty to number for the API
+      const difficultyLevel = 
+        difficulty === QuizDifficulty.EASY ? 1 : 
+        difficulty === QuizDifficulty.MEDIUM ? 2 : 3;
+      
+      // Generate questions
+      const questions = generateQuizQuestions(difficultyLevel, selectedTypes, 0);
+      
+      // Sort questions randomly
+      const shuffledQuestions = shuffleArray(questions);
+      
+      // Set state
+      this.setState({
+        questions: shuffledQuestions,
+        currentQuestionIndex: 0,
+        selectedAnswer: null,
+        isAnswerSubmitted: false,
+        timeRemaining: null,
+        timerInterval: null,
+        timeIsUp: false,
+        loading: false,
+        score: 0,
+        quizSetupComplete: true,
+        quizCompleted: false
+      }, () => {
+        // Start timer if applicable
+        this.startTimer();
+      });
+    } catch (error) {
+      console.error('Error loading questions:', error);
+      this.setState({ loading: false });
     }
+  };
+  
+  handleChangeDifficulty = (newDifficulty: QuizDifficulty) => {
+    this.setState({ difficulty: newDifficulty });
+  };
+  
+  handleAnswerSelect = (value: string) => {
+    this.setState({ selectedAnswer: value });
+  };
+  
+  handleSubmitAnswer = () => {
+    const { selectedAnswer, questions, currentQuestionIndex, score } = this.state;
     
-    // Generate questions based on difficulty and selected types
-    const questions = generateQuizQuestions(difficultyNumber, selectedTypes);
+    if (!selectedAnswer) return;
     
-    this.setState({
-      questions,
-      loading: false,
-      quizSetupComplete: true
-    }, () => {
-      // Start timer if needed
-      this.startTimer();
+    const currentQuestion = questions[currentQuestionIndex];
+    const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
+    
+    this.setState({ 
+      isAnswerSubmitted: true,
+      score: isCorrect ? score + 1 : score
     });
+    
+    this.clearTimer();
+  };
+  
+  handleTimeUp = () => {
+    this.setState({ timeIsUp: true, isAnswerSubmitted: true });
+    this.clearTimer();
+  };
+  
+  handleNextQuestion = () => {
+    const { currentQuestionIndex, questions } = this.state;
+    
+    if (currentQuestionIndex === questions.length - 1) {
+      // Quiz completed
+      this.setState({
+        quizCompleted: true
+      });
+    } else {
+      // Next question
+      this.setState({
+        currentQuestionIndex: currentQuestionIndex + 1,
+        selectedAnswer: null,
+        isAnswerSubmitted: false,
+        timeIsUp: false
+      }, () => {
+        this.startTimer();
+      });
+    }
+  };
+  
+  handleRestartQuiz = () => {
+    this.setState({
+      currentQuestionIndex: 0,
+      selectedAnswer: null,
+      isAnswerSubmitted: false,
+      timeRemaining: null,
+      timerInterval: null,
+      timeIsUp: false,
+      loading: false,
+      score: 0,
+      quizCompleted: false
+    });
+  };
+  
+  toggleTypeSelection = (type: string) => {
+    this.setState(prevState => {
+      const isSelected = prevState.selectedTypes.includes(type);
+      
+      return {
+        selectedTypes: isSelected
+          ? prevState.selectedTypes.filter(t => t !== type)
+          : [...prevState.selectedTypes, type]
+      };
+    });
+  };
+  
+  clearTypeSelection = () => {
+    this.setState({ selectedTypes: [] });
+  };
+
+  renderTypeSelector = () => {
+    const { selectedTypes } = this.state;
+    const { theme } = this.props;
+    const allTypes = getAllSymbolTypes();
+    
+    const renderIcon = (isSelected: boolean, size: number = 20) => (
+      <IconButton
+        icon={isSelected ? "check" : "plus"}
+        size={size}
+        iconColor={theme.colors.primary}
+        style={{ margin: 0 }}
+      />
+    );
+    
+    return (
+      <View style={styles.typeFilterContainer}>
+        <Text style={[styles.filterLabel, { color: theme.colors.onBackground }]}>Filter by symbol types:</Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.typeScrollView}>
+          <View style={styles.typeChipContainer}>
+            {allTypes.map((type: string) => (
+              <Chip
+                key={type}
+                selected={selectedTypes.includes(type)}
+                onPress={() => this.toggleTypeSelection(type)}
+                style={styles.typeChip}
+                selectedColor={theme.colors.primary}
+                avatar={renderIcon(selectedTypes.includes(type))}
+              >
+                {type.replace(/_/g, ' ')}
+              </Chip>
+            ))}
+          </View>
+        </ScrollView>
+        
+        <View style={styles.filterActionsContainer}>
+          <Button
+            mode="outlined"
+            onPress={this.clearTypeSelection}
+            style={styles.clearButton}
+            icon={({ size, color }) => (
+              <IconButton
+                icon="close"
+                iconColor={color}
+                size={size}
+                style={{ margin: 0 }}
+              />
+            )}
+          >
+            Clear Selection
+          </Button>
+          
+          <Text style={[styles.helperText, { color: theme.colors.onSurfaceVariant }]}>
+            {selectedTypes.length === 0 
+              ? "All symbol types will be included" 
+              : `${selectedTypes.length} symbol type${selectedTypes.length === 1 ? '' : 's'} selected`}
+          </Text>
+        </View>
+      </View>
+    );
+  };
+
+  renderDifficultySelector = () => {
+    const { difficulty } = this.state;
+    const { theme } = this.props;
+    
+    const renderIcon = (iconName: string, size: number = 20) => (
+      <IconButton
+        icon={iconName}
+        size={size}
+        iconColor={theme.colors.primary}
+        style={{ margin: 0 }}
+      />
+    );
+    
+    return (
+      <View style={styles.difficultyContainer}>
+        <Text style={[styles.difficultyLabel, { color: theme.colors.onBackground }]}>Difficulty:</Text>
+        <View style={styles.chipContainer}>
+          <Chip 
+            selected={difficulty === QuizDifficulty.EASY}
+            onPress={() => this.handleChangeDifficulty(QuizDifficulty.EASY)}
+            style={[styles.chip, difficulty === QuizDifficulty.EASY && { backgroundColor: theme.colors.primaryContainer }]}
+            selectedColor={theme.colors.primary}
+          >
+            Easy
+          </Chip>
+          <Chip 
+            selected={difficulty === QuizDifficulty.MEDIUM}
+            onPress={() => this.handleChangeDifficulty(QuizDifficulty.MEDIUM)}
+            style={[styles.chip, difficulty === QuizDifficulty.MEDIUM && { backgroundColor: theme.colors.primaryContainer }]}
+            selectedColor={theme.colors.primary}
+          >
+            Medium
+          </Chip>
+          <Chip 
+            selected={difficulty === QuizDifficulty.HARD}
+            onPress={() => this.handleChangeDifficulty(QuizDifficulty.HARD)}
+            style={[styles.chip, difficulty === QuizDifficulty.HARD && { backgroundColor: theme.colors.primaryContainer }]}
+            selectedColor={theme.colors.primary}
+          >
+            Hard
+          </Chip>
+        </View>
+      </View>
+    );
   };
   
   startTimer = () => {
@@ -132,183 +335,9 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     this.setState({ timerInterval: interval });
   };
   
-  handleTimeUp = () => {
-    // Clear interval
-    if (this.state.timerInterval) {
-      clearInterval(this.state.timerInterval);
-    }
-    
-    // Mark question as incorrect and show correct answer
-    this.setState({
-      isAnswerSubmitted: true,
-      timeIsUp: true
-    });
-  };
-
-  handleAnswerSelect = (answer: string) => {
-    if (!this.state.isAnswerSubmitted) {
-      this.setState({ selectedAnswer: answer });
-    }
-  };
-
-  handleSubmitAnswer = () => {
-    const { selectedAnswer, questions, currentQuestionIndex, score } = this.state;
-    
-    if (selectedAnswer) {
-      const currentQuestion = questions[currentQuestionIndex];
-      const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-      
-      this.setState({
-        isAnswerSubmitted: true,
-        score: isCorrect ? score + 1 : score
-      });
-    }
-  };
-
-  handleNextQuestion = () => {
-    const { currentQuestionIndex, questions, timerInterval } = this.state;
-    const nextIndex = currentQuestionIndex + 1;
-    
-    // Clear current timer if exists
-    if (timerInterval) {
-      clearInterval(timerInterval);
-    }
-    
-    if (nextIndex < questions.length) {
-      this.setState({
-        currentQuestionIndex: nextIndex,
-        selectedAnswer: null,
-        isAnswerSubmitted: false,
-        timeIsUp: false,
-        timerInterval: null
-      }, () => {
-        // Start new timer for next question
-        this.startTimer();
-      });
-    } else {
-      this.setState({ 
-        quizCompleted: true,
-        timerInterval: null
-      });
-    }
-  };
-
-  handleRestartQuiz = () => {
-    this.setState({
-      currentQuestionIndex: 0,
-      selectedAnswer: null,
-      isAnswerSubmitted: false,
-      score: 0,
-      quizCompleted: false,
-      loading: true
-    }, this.loadQuestions);
-  };
-
-  handleChangeDifficulty = (difficulty: QuizDifficulty) => {
-    this.setState({
-      difficulty,
-      currentQuestionIndex: 0,
-      selectedAnswer: null,
-      isAnswerSubmitted: false,
-      score: 0,
-      quizCompleted: false
-    });
-  };
-
-  toggleTypeSelection = (type: string) => {
-    this.setState(prevState => {
-      const isSelected = prevState.selectedTypes.includes(type);
-      
-      return {
-        selectedTypes: isSelected
-          ? prevState.selectedTypes.filter(t => t !== type)
-          : [...prevState.selectedTypes, type]
-      };
-    });
-  };
-  
-  clearTypeSelection = () => {
-    this.setState({ selectedTypes: [] });
-  };
-
-  renderTypeSelector = () => {
-    const { selectedTypes } = this.state;
-    const allTypes = getAllSymbolTypes();
-    
-    return (
-      <View style={styles.typeFilterContainer}>
-        <Text style={styles.filterLabel}>Filter by symbol types:</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.typeScrollView}>
-          <View style={styles.typeChipContainer}>
-            {allTypes.map((type: string) => (
-              <Chip
-                key={type}
-                selected={selectedTypes.includes(type)}
-                onPress={() => this.toggleTypeSelection(type)}
-                style={styles.typeChip}
-                selectedColor="#0066CC"
-              >
-                {type.replace(/_/g, ' ')}
-              </Chip>
-            ))}
-          </View>
-        </ScrollView>
-        
-        <View style={styles.filterActionsContainer}>
-          <Button
-            mode="outlined"
-            onPress={this.clearTypeSelection}
-            style={styles.clearButton}
-            icon="close-circle-outline"
-          >
-            Clear Selection
-          </Button>
-          
-          <Text style={styles.helperText}>
-            {selectedTypes.length === 0 
-              ? "All symbol types will be included" 
-              : `${selectedTypes.length} symbol type${selectedTypes.length === 1 ? '' : 's'} selected`}
-          </Text>
-        </View>
-      </View>
-    );
-  };
-
-  renderDifficultySelector = () => {
-    const { difficulty } = this.state;
-    
-    return (
-      <View style={styles.difficultyContainer}>
-        <Text style={styles.difficultyLabel}>Difficulty:</Text>
-        <View style={styles.chipContainer}>
-          <Chip 
-            selected={difficulty === QuizDifficulty.EASY}
-            onPress={() => this.handleChangeDifficulty(QuizDifficulty.EASY)}
-            style={[styles.chip, difficulty === QuizDifficulty.EASY && styles.selectedChip]}
-          >
-            Easy
-          </Chip>
-          <Chip 
-            selected={difficulty === QuizDifficulty.MEDIUM}
-            onPress={() => this.handleChangeDifficulty(QuizDifficulty.MEDIUM)}
-            style={[styles.chip, difficulty === QuizDifficulty.MEDIUM && styles.selectedChip]}
-          >
-            Medium
-          </Chip>
-          <Chip 
-            selected={difficulty === QuizDifficulty.HARD}
-            onPress={() => this.handleChangeDifficulty(QuizDifficulty.HARD)}
-            style={[styles.chip, difficulty === QuizDifficulty.HARD && styles.selectedChip]}
-          >
-            Hard
-          </Chip>
-        </View>
-      </View>
-    );
-  };
-  
   renderTimer = () => {
     const { timeRemaining, difficulty } = this.state;
+    const { theme } = this.props;
     
     if (difficulty === QuizDifficulty.EASY || timeRemaining === null) {
       return null;
@@ -318,11 +347,14 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     const dangerThreshold = difficulty === QuizDifficulty.MEDIUM ? 7 : 5;
     const warningThreshold = difficulty === QuizDifficulty.MEDIUM ? 15 : 7;
     
-    let timerColor = '#28a745'; // Green
+    // Use custom warning color since it's not in MD3 theme by default
+    const warningColor = '#ffc107'; // Amber
+    
+    let timerColor = theme.colors.primary; // Default
     if (timeRemaining <= dangerThreshold) {
-      timerColor = '#dc3545'; // Red
+      timerColor = theme.colors.error;
     } else if (timeRemaining <= warningThreshold) {
-      timerColor = '#ffc107'; // Yellow
+      timerColor = warningColor;
     }
     
     // Calculate progress percentage
@@ -351,10 +383,11 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
       isAnswerSubmitted,
       timeIsUp
     } = this.state;
+    const { theme } = this.props;
     
     if (questions.length === 0) {
       return (
-        <Text style={styles.noQuestionsText}>
+        <Text style={[styles.noQuestionsText, { color: theme.colors.onBackground }]}>
           No questions available for this difficulty level.
         </Text>
       );
@@ -365,7 +398,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     
     if (!symbol) {
       return (
-        <Text style={styles.errorText}>
+        <Text style={[styles.errorText, { color: theme.colors.error }]}>
           Symbol not found for this question.
         </Text>
       );
@@ -373,7 +406,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     
     return (
       <View style={styles.questionContainer}>
-        <Text style={styles.questionCounter}>
+        <Text style={[styles.questionCounter, { color: theme.colors.onSurfaceVariant }]}>
           Question {currentQuestionIndex + 1} of {questions.length}
         </Text>
         
@@ -384,14 +417,16 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
                 ? { uri: symbol.image } 
                 : { uri: symbol.image.replace('../../assets', '/assets') }
             } 
-            style={styles.symbolImage} 
+            style={[styles.symbolImage, { backgroundColor: theme.colors.surface }]} 
             resizeMode="contain"
           />
         </View>
         
         {this.renderTimer()}
         
-        <Text style={styles.questionText}>{currentQuestion.question}</Text>
+        <Text style={[styles.questionText, { color: theme.colors.onBackground }]}>
+          {currentQuestion.question}
+        </Text>
         
         <RadioButton.Group
           onValueChange={this.handleAnswerSelect}
@@ -412,24 +447,27 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
                         : 'unchecked'
                     : 'unchecked'
                 }
-                labelStyle={
+                labelStyle={[
+                  { color: theme.colors.onSurface },
                   isAnswerSubmitted
                     ? option === currentQuestion.correctAnswer
-                      ? styles.correctAnswer
+                      ? [styles.correctAnswer, { color: theme.colors.primary }]
                       : selectedAnswer === option
-                        ? styles.incorrectAnswer
+                        ? [styles.incorrectAnswer, { color: theme.colors.error }]
                         : {}
                     : {}
-                }
+                ]}
+                color={theme.colors.primary}
+                uncheckedColor={theme.colors.onSurfaceVariant}
               />
             </View>
           ))}
         </RadioButton.Group>
         
         {isAnswerSubmitted && (
-          <Card style={styles.explanationCard}>
+          <Card style={[styles.explanationCard, { backgroundColor: theme.colors.surfaceVariant }]}>
             <Card.Content>
-              <Paragraph style={styles.explanationText}>
+              <Paragraph style={[styles.explanationText, { color: theme.colors.onSurfaceVariant }]}>
                 {currentQuestion.explanation || 'No explanation available.'}
               </Paragraph>
             </Card.Content>
@@ -464,6 +502,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
 
   renderResults = () => {
     const { score, questions, difficulty, selectedTypes } = this.state;
+    const { theme } = this.props;
     const percentage = Math.round((score / questions.length) * 100);
     
     let resultMessage = '';
@@ -488,38 +527,42 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
     // Get time limit based on difficulty
     let timeLimit = 'Unlimited';
     if (difficulty === QuizDifficulty.MEDIUM) {
-      timeLimit = '60 seconds per question';
+      timeLimit = '30 seconds per question';
     } else if (difficulty === QuizDifficulty.HARD) {
-      timeLimit = '20 seconds per question';
+      timeLimit = '15 seconds per question';
     }
     
     return (
       <View style={styles.resultsContainer}>
-        <Title style={styles.resultsTitle}>Quiz Results</Title>
+        <Title style={[styles.resultsTitle, { color: theme.colors.onBackground }]}>Quiz Results</Title>
         
-        <Card style={styles.resultsCard}>
+        <Card style={[styles.resultsCard, { backgroundColor: theme.colors.surface }]}>
           <Card.Content>
-            <Text style={styles.scoreText}>
+            <Text style={[styles.scoreText, { color: theme.colors.onBackground }]}>
               Your Score: {score} / {questions.length} ({percentage}%)
             </Text>
             
-            <Text style={styles.difficultyText}>Difficulty: {difficulty}</Text>
+            <Text style={[styles.difficultyText, { color: theme.colors.onSurfaceVariant }]}>
+              Difficulty: {difficulty}
+            </Text>
             
-            <Text style={styles.quizInfoText}>
+            <Text style={[styles.quizInfoText, { color: theme.colors.onSurfaceVariant }]}>
               Questions: {questions.length} of {expectedQuestionCount} expected
             </Text>
             
-            <Text style={styles.quizInfoText}>
+            <Text style={[styles.quizInfoText, { color: theme.colors.onSurfaceVariant }]}>
               Time Limit: {timeLimit}
             </Text>
             
             {selectedTypes.length > 0 && (
-              <Text style={styles.quizInfoText}>
+              <Text style={[styles.quizInfoText, { color: theme.colors.onSurfaceVariant }]}>
                 Symbol Types: {selectedTypes.map(t => t.replace(/_/g, ' ')).join(', ')}
               </Text>
             )}
             
-            <Paragraph style={styles.resultMessage}>{resultMessage}</Paragraph>
+            <Paragraph style={[styles.resultMessage, { color: theme.colors.onBackground }]}>
+              {resultMessage}
+            </Paragraph>
           </Card.Content>
         </Card>
         
@@ -555,20 +598,21 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
 
   render() {
     const { loading, quizCompleted, quizSetupComplete } = this.state;
+    const { theme } = this.props;
     
     if (loading) {
       return (
-        <View style={styles.centered}>
-          <ActivityIndicator size="large" color="#0066CC" animating={true} />
-          <Text style={styles.loadingText}>Loading quiz questions...</Text>
+        <View style={[styles.centered, { backgroundColor: theme.colors.background }]}>
+          <ActivityIndicator size="large" color={theme.colors.primary} animating={true} />
+          <Text style={[styles.loadingText, { color: theme.colors.onBackground }]}>Loading quiz questions...</Text>
         </View>
       );
     }
     
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView style={[styles.container, { backgroundColor: theme.colors.background }]}>
         <View style={styles.headerContainer}>
-          <Title style={styles.header}>Symbol Quiz</Title>
+          <Title style={[styles.header, { color: theme.colors.onBackground }]}>Symbol Quiz</Title>
           <Divider />
         </View>
         
@@ -581,7 +625,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
               mode="contained"
               onPress={this.loadQuestions}
               style={styles.startButton}
-              icon="play-circle"
+              icon="play"
             >
               Start Quiz
             </Button>
@@ -599,7 +643,6 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   centered: {
     flex: 1,
@@ -636,9 +679,6 @@ const styles = StyleSheet.create({
     marginRight: 8,
     marginBottom: 8,
   },
-  selectedChip: {
-    backgroundColor: '#0066CC',
-  },
   typeFilterContainer: {
     padding: 16,
     marginBottom: 16,
@@ -666,7 +706,6 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontSize: 14,
-    color: '#666',
     marginBottom: 8,
   },
   startButton: {
@@ -689,7 +728,6 @@ const styles = StyleSheet.create({
   },
   questionCounter: {
     fontSize: 14,
-    color: '#666',
     marginBottom: 16,
   },
   symbolContainer: {
@@ -699,7 +737,6 @@ const styles = StyleSheet.create({
   symbolImage: {
     width: 120,
     height: 120,
-    backgroundColor: '#FFFFFF',
     borderRadius: 8,
     padding: 10,
   },
@@ -712,11 +749,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   correctAnswer: {
-    color: 'green',
     fontWeight: 'bold',
   },
   incorrectAnswer: {
-    color: 'red',
     textDecorationLine: 'line-through',
   },
   explanationCard: {
@@ -772,15 +807,13 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 16,
-    color: 'red',
     textAlign: 'center',
     padding: 20,
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
   },
 });
 
-export default QuizScreen;
+export default withTheme(QuizScreen);

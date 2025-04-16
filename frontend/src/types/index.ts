@@ -25,6 +25,12 @@ export interface QuizQuestion {
   question: string;
   options: string[];
   correctAnswer: string;
-  difficulty: number | QuizDifficulty;
+  difficulty: QuizDifficulty | number;
   explanation?: string;
 }
+
+// Navigation types
+export type RootStackParamList = {
+  SymbolLibrary: undefined;
+  Quiz: undefined;
+};
