@@ -10,7 +10,8 @@ import {
   Divider,
   ActivityIndicator,
   Chip,
-  ProgressBar
+  ProgressBar,
+  Icon
 } from 'react-native-paper';
 import { QuizDifficulty } from '../data/quizQuestions';
 import { 
@@ -279,6 +280,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
             mode="outlined"
             onPress={this.clearTypeSelection}
             style={styles.clearButton}
+            icon="close-circle-outline"
           >
             Clear Selection
           </Button>
@@ -462,6 +464,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
               onPress={this.handleSubmitAnswer}
               disabled={!selectedAnswer}
               style={styles.button}
+              icon="check"
             >
               Submit Answer
             </Button>
@@ -470,6 +473,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
               mode="contained"
               onPress={this.handleNextQuestion}
               style={styles.button}
+              icon={currentQuestionIndex === questions.length - 1 ? "flag-checkered" : "arrow-right"}
             >
               {currentQuestionIndex === questions.length - 1 ? 'Finish Quiz' : 'Next Question'}
             </Button>
@@ -545,6 +549,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
             mode="contained"
             onPress={this.handleRestartQuiz}
             style={styles.button}
+            icon="refresh"
           >
             New Quiz
           </Button>
@@ -552,6 +557,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
             mode="outlined"
             onPress={() => this.setState({ quizSetupComplete: false })}
             style={styles.button}
+            icon="cog"
           >
             Change Settings
           </Button>
@@ -559,6 +565,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
             mode="outlined"
             onPress={() => this.props.navigation.navigate('SymbolLibrary')}
             style={[styles.button, styles.secondaryButton]}
+            icon="book-open-variant"
           >
             Back to Symbol Library
           </Button>
@@ -595,6 +602,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
               mode="contained"
               onPress={this.loadQuestions}
               style={styles.startButton}
+              icon="play-circle"
             >
               Start Quiz
             </Button>

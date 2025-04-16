@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, FlatList, StyleSheet, Image, TouchableOpacity, ScrollView, TextInput } from 'react-native';
-import { Text, ActivityIndicator, Title, Divider, Button, Modal, Portal } from 'react-native-paper';
+import { Text, ActivityIndicator, Title, Divider, Button, Modal, Portal, IconButton, Icon } from 'react-native-paper';
 import SymbolCard from '../components/SymbolCard';
 import { getAllSymbols, getAllSymbolTypes } from '../utils/assetUtils';
 
@@ -157,25 +157,25 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
         
         <View style={styles.filterContainer}>
           <View style={styles.searchBarWrapper}>
-            <View style={styles.searchBar}>
-              <Text style={styles.searchIcon}>🔍</Text>
-              <TextInput
-                placeholder="Search symbols..."
-                onChangeText={this.handleSearch}
-                value={searchQuery}
-                style={styles.searchInput}
-                placeholderTextColor="#888"
-                returnKeyType="search"
-              />
-              {searchQuery.length > 0 && (
-                <TouchableOpacity 
-                  style={styles.clearButton}
-                  onPress={() => this.handleSearch('')}
-                >
-                  <Text style={styles.clearButtonText}>✕</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+          <View style={styles.searchBar}>
+            <Icon source="magnify" size={20} color="#888" />
+            <TextInput
+              placeholder="Search symbols..."
+              onChangeText={this.handleSearch}
+              value={searchQuery}
+              style={styles.searchInput}
+              placeholderTextColor="#888"
+              returnKeyType="search"
+            />
+            {searchQuery.length > 0 && (
+              <TouchableOpacity 
+                style={styles.clearButton}
+                onPress={() => this.handleSearch('')}
+              >
+                <Icon source="close" size={16} color="#666" />
+              </TouchableOpacity>
+            )}
+          </View>
           </View>
           
           <Button 
@@ -183,6 +183,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
             onPress={this.toggleTypeMenu}
             style={styles.filterButton}
             labelStyle={styles.filterButtonLabel}
+            icon="filter-variant"
           >
             {selectedType ? selectedType.replace(/_/g, ' ') : "Filter"}
           </Button>
@@ -195,9 +196,12 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
             >
               <View style={styles.modalHeader}>
                 <Text style={styles.modalTitle}>Select Symbol Type</Text>
-                <TouchableOpacity onPress={this.toggleTypeMenu} style={styles.closeButton}>
-                  <Text style={styles.closeButtonText}>✕</Text>
-                </TouchableOpacity>
+                <IconButton
+                  icon="close"
+                  size={20}
+                  onPress={this.toggleTypeMenu}
+                  style={styles.closeButton}
+                />
               </View>
               
               <Divider style={styles.modalDivider} />
@@ -217,7 +221,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
                     All Types
                   </Text>
                   {selectedType === null && (
-                    <Text style={styles.checkIcon}>✓</Text>
+                    <Icon source="check" size={18} color="#007BFF" />
                   )}
                 </TouchableOpacity>
                 
@@ -239,7 +243,7 @@ class SymbolLibraryScreen extends Component<SymbolLibraryScreenProps, SymbolLibr
                       {type.replace(/_/g, ' ')}
                     </Text>
                     {selectedType === type && (
-                      <Text style={styles.checkIcon}>✓</Text>
+                      <Icon source="check" size={18} color="#007BFF" />
                     )}
                   </TouchableOpacity>
                 ))}
@@ -325,10 +329,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     height: 44,
   },
-  searchIcon: {
-    fontSize: 16,
-    marginRight: 8,
-  },
   searchInput: {
     flex: 1,
     fontSize: 16,
@@ -343,11 +343,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#e0e0e0',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  clearButtonText: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    color: '#666',
   },
   filterButton: {
     borderRadius: 8,
@@ -382,17 +377,8 @@ const styles = StyleSheet.create({
     height: 1,
   },
   closeButton: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
+    margin: 0,
     backgroundColor: '#f0f0f0',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  closeButtonText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#666',
   },
   typeList: {
     maxHeight: 400,
@@ -413,12 +399,6 @@ const styles = StyleSheet.create({
   selectedTypeText: {
     color: '#007BFF',
     fontWeight: 'bold',
-  },
-  checkIcon: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#007BFF',
-    marginRight: 10,
   },
   resultsCountContainer: {
     paddingHorizontal: 16,
