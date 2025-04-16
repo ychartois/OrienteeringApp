@@ -6,6 +6,9 @@ A mobile application to help users learn and understand IOF (International Orien
 
 This application aims to educate users on IOF control description symbols, enabling them to interpret control description sheets independently. It provides interactive learning experiences, practice tools, and progress tracking to help users improve their understanding of orienteering control descriptions.
 
+## Roadmap
+You can find the detailed roadmap in [roadmap.md](roadmap.md).
+
 ## Features
 
 - **Symbol Library**: A comprehensive catalog of IOF symbols with detailed descriptions, search functionality, filtering by type, and results count display
