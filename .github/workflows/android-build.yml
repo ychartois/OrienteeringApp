@@ -202,10 +202,13 @@ jobs:
               repositories {
                   google()
                   mavenCentral()
+                  // Add jitpack repository for react-native-gradle-plugin
+                  maven { url 'https://www.jitpack.io' }
               }
               dependencies {
                   classpath('com.android.tools.build:gradle:7.3.1')
-                  classpath('com.facebook.react:react-native-gradle-plugin:0.72.0')
+                  // Use a specific version that's available on jitpack
+                  classpath('com.github.facebook:react-native-gradle-plugin:v0.71.19')
                   classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:\${kotlinVersion}")
               }
           }
