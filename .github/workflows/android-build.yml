@@ -32,11 +32,10 @@ jobs:
 
       - name: Install dependencies
         working-directory: frontend
-        run: npm install --legacy-peer-deps
-
-      - name: Install Expo CLI
-        working-directory: frontend
-        run: npm install -g expo-cli
+        run: |
+          npm install --legacy-peer-deps
+          # Ensure expo is installed
+          npm install expo@latest
 
       - name: Create app icons
         working-directory: frontend
@@ -47,15 +46,8 @@ jobs:
             const fs = require('fs');
             const path = require('path');
             
-            // Read the existing icon file from assets directory if it exists
-            // Otherwise use a default empty buffer
-            let iconData;
-            try {
-              iconData = fs.readFileSync(path.join('assets', 'icon.png'));
-            } catch (e) {
-              // Create a minimal 1x1 transparent PNG
-              iconData = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
-            }
+            // Create a minimal 1x1 transparent PNG
+            const iconData = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
             
             // Write the icon files needed for Android build
             fs.writeFileSync(path.join('src', 'assets', 'icon.png'), iconData);
@@ -64,13 +56,45 @@ jobs:
             fs.writeFileSync(path.join('src', 'assets', 'favicon.png'), iconData);
           "
 
+      - name: Update app.json for Android build
+        working-directory: frontend
+        run: |
+          # Add required fields to app.json if they don't exist
+          node -e "
+            const fs = require('fs');
+            const appJson = JSON.parse(fs.readFileSync('app.json', 'utf8'));
+            
+            // Make sure expo config exists
+            if (!appJson.expo) {
+              appJson.expo = {};
+            }
+            
+            // Ensure android config exists
+            if (!appJson.expo.android) {
+              appJson.expo.android = {};
+            }
+            
+            // Make sure package name is set
+            if (!appJson.expo.android.package) {
+              appJson.expo.android.package = 'com.orienteeringapp.mobile';
+            }
+            
+            // Save updated app.json
+            fs.writeFileSync('app.json', JSON.stringify(appJson, null, 2));
+          "
+
       - name: Generate native Android project
         working-directory: frontend
-        run: npx expo prebuild --platform android --clean
+        run: |
+          # Use npx directly instead of global expo-cli
+          npx expo-cli prebuild --platform android --clean --no-install
 
       - name: Build Android APK
         working-directory: frontend/android
-        run: ./gradlew assembleRelease
+        run: |
+          # Make gradlew executable
+          chmod +x ./gradlew
+          ./gradlew assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
