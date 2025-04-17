@@ -1,10 +1,37 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const fs = require('fs');
 
 // Get the repository name from package.json or environment variable
 const repoName = process.env.REPO_NAME || 'OrienteeringApp';
 const isProduction = process.env.NODE_ENV === 'production';
+
+// Check if src/assets directory exists and has files
+const assetsDir = path.resolve(__dirname, 'src/assets');
+const hasAssets = fs.existsSync(assetsDir) && 
+                 fs.readdirSync(assetsDir).length > 0;
+
+// Plugin configuration
+const plugins = [
+  new HtmlWebpackPlugin({
+    template: path.join(__dirname, 'public', 'index.html'),
+  })
+];
+
+// Only add CopyWebpackPlugin if assets directory has files
+if (hasAssets) {
+  plugins.push(
+    new CopyWebpackPlugin({
+      patterns: [
+        { 
+          from: path.resolve(__dirname, 'src/assets'),
+          to: 'assets'
+        },
+      ],
+    })
+  );
+}
 
 module.exports = {
   entry: './index.js',
@@ -70,20 +97,7 @@ module.exports = {
       'assets': path.resolve(__dirname, '../assets'),
     },
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'public', 'index.html'),
-    }),
-    // Copy static assets to the dist folder
-    new CopyWebpackPlugin({
-      patterns: [
-        { 
-          from: path.resolve(__dirname, 'src/assets'),
-          to: 'assets'
-        },
-      ],
-    }),
-  ],
+  plugins: plugins,
   devServer: {
     static: [
       {
