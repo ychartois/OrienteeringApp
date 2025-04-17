@@ -3,6 +3,9 @@ import { View, Image, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph, Text, withTheme } from 'react-native-paper';
 import { Symbol } from '../types';
 
+// Get the asset path prefix from webpack environment
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 interface SymbolCardProps {
   symbol: Symbol;
   onPress: () => void;
@@ -21,7 +24,7 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
             source={
               symbol.image.startsWith('http') 
                 ? { uri: symbol.image } 
-                : { uri: symbol.image.replace('../../assets', '/assets') }
+                : { uri: symbol.image.replace('../../assets', `${ASSET_PATH}assets`) }
             } 
             style={styles.image} 
             resizeMode="contain"

@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const fs = require('fs');
+const webpack = require('webpack');
 
 // Get the repository name from package.json or environment variable
 const repoName = process.env.REPO_NAME || 'OrienteeringApp';
@@ -29,6 +30,21 @@ if (hasAssets) {
           to: 'assets'
         },
       ],
+    })
+  );
+}
+
+// Add a global variable for asset path prefix to be used in the application
+if (isProduction) {
+  plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.ASSET_PATH': JSON.stringify(`/${repoName}/`)
+    })
+  );
+} else {
+  plugins.push(
+    new webpack.DefinePlugin({
+      'process.env.ASSET_PATH': JSON.stringify('/')
     })
   );
 }
