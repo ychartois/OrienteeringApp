@@ -464,7 +464,9 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
             source={
               symbol.image.startsWith('http') 
                 ? { uri: symbol.image } 
-                : { uri: symbol.image.replace('../../assets', '/assets') }
+                : { uri: process.env.PUBLIC_URL 
+                    ? `${process.env.PUBLIC_URL}${symbol.image.replace('../../assets', '/assets')}` 
+                    : symbol.image.replace('../../assets', '/assets') }
             } 
             style={[styles.symbolImage, { backgroundColor: theme.colors.surface }]} 
             resizeMode="contain"
