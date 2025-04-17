@@ -15,8 +15,13 @@ This file contain the instructions for the work day, what want to achieve and wh
 ### Items covered from the current roadmap
 #### 🔄 Deployment
 - ✅ Web deployment configuration with GitHub Pages
-- ✅ Mobile app store preparation
-- ✅ CI/CD pipeline with GitHub Actions
+- 🔄 Mobile app deployment with EAS Build
+- 🔄 CI/CD pipeline with GitHub Actions
+
+#### 🔄 Branching & Release Strategy
+- 📝 Implement Git Flow branching model
+- 📝 Configure builds to trigger only on specific branches/tags
+- 📝 Set up automatic versioning for releases
 
 #### 🔄 Testing & Quality
 - ✅ Unit tests for core functionality
@@ -25,11 +30,11 @@ This file contain the instructions for the work day, what want to achieve and wh
 
 ### Additional Items to Consider
 
-#### 🔄 Environment Configuration
+#### ✅ Environment Configuration
 - ✅ Setting up different environments (dev, staging, production)
 - ✅ Managing environment variables across platforms
 
-#### 🔄 Web Hosting Setup
+#### ✅ Web Hosting Setup
 - ✅ Selecting a hosting provider (GitHub Pages)
 - 📝 Domain configuration if needed
 
@@ -46,6 +51,7 @@ This file contain the instructions for the work day, what want to achieve and wh
 - ✅ Creating testing documentation for future contributors
 - ✅ Creating app store preparation guide
 - ✅ Creating privacy policy for app stores
+- 📝 Creating release process documentation
 
 ## Current Progress
 
@@ -57,15 +63,18 @@ This file contain the instructions for the work day, what want to achieve and wh
 - ✅ Webpack configuration updated for GitHub Pages deployment
 - ✅ Created documentation for deployment, testing, and app store submission
 - ✅ Implemented environment handling for development and production builds
+- ✅ Created placeholder app icons and splash screens for Android build
+- ✅ Set up eas.json configuration for EAS builds
 
-### Remaining Tasks
-- 📝 Create app icons and splash screens for mobile platforms
-- 📝 Set up integration tests for key user flows
-- 📝 Configure end-to-end testing with Detox
-- 📝 Implement performance monitoring
+### Tomorrow's Plan
+- 📝 Configure EAS Build in GitHub Actions for Android deployment
+- 📝 Implement branching strategy to control when builds are triggered
+- 📝 Create release workflow for versioned app releases
+- 📝 Document the release process for team members
 
 ### Challenges and Solutions
 - ✅ Resolved test configuration issues with Jest by switching from jest-expo to react-native preset
 - ✅ Fixed webpack configuration to handle asset copying more robustly
-- 🔄 Working on GitHub Actions workflow reliability by separating web and Android pipelines
-- ✅ Updated dependency installation in workflows to handle package-lock.json sync issues
+- ✅ Identified issues with direct Android builds in GitHub Actions
+- ✅ Decided to use Expo's EAS Build service for more reliable Android builds
+- ✅ Created necessary icon and splash screen assets for Android builds

@@ -98,11 +98,18 @@ This document outlines the complete roadmap for the OrienteeringApp project, tra
 - 📝 Accessibility compliance
 
 ### 🔄 Deployment
-- 📝 Web deployment configuration
-- 📝 Mobile app store preparation
-- 📝 CI/CD pipeline with GitHub Actions
+- ✅ Web deployment configuration
+- 🔄 Mobile app deployment with EAS Build
+- 🔄 CI/CD pipeline with GitHub Actions
 - 📝 Backend deployment to cloud provider
 - 📝 Database hosting and configuration
+
+### 🔄 Branching & Release Strategy
+- 📝 Implement Git Flow branching model with main, develop, feature, and release branches
+- 📝 Configure GitHub Actions to only trigger builds on specific branches/tags
+- 📝 Set up automatic versioning for releases
+- 📝 Create release candidate testing process
+- 📝 Document release procedures for team members
 
 ## Improvements & Bug Fixes
 
