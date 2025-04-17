@@ -89,12 +89,38 @@ jobs:
           # Use npx directly instead of global expo-cli
           npx expo-cli prebuild --platform android --clean --no-install
 
+      - name: Setup Gradle compatibility
+        working-directory: frontend/android
+        run: |
+          # Update Gradle wrapper to a compatible version
+          echo "Updating Gradle wrapper to compatible version..."
+          
+          # Create gradle-wrapper.properties with correct version
+          mkdir -p gradle/wrapper
+          cat > gradle/wrapper/gradle-wrapper.properties << EOF
+          distributionBase=GRADLE_USER_HOME
+          distributionPath=wrapper/dists
+          distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip
+          zipStoreBase=GRADLE_USER_HOME
+          zipStorePath=wrapper/dists
+          EOF
+          
+          # Update build.gradle to use compatible Gradle plugin version
+          echo "Updating build.gradle..."
+          
+          # Create a backup of the original build.gradle
+          cp build.gradle build.gradle.bak
+          
+          # Modify the build.gradle file to use a compatible version
+          sed -i 's/com.android.tools.build:gradle:[0-9.]*"/com.android.tools.build:gradle:7.3.1"/g' build.gradle
+          sed -i 's/classpath("com.android.tools.build:gradle:[0-9.]*")/classpath("com.android.tools.build:gradle:7.3.1")/g' build.gradle
+
       - name: Build Android APK
         working-directory: frontend/android
         run: |
           # Make gradlew executable
           chmod +x ./gradlew
-          ./gradlew assembleRelease
+          ./gradlew assembleRelease --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
