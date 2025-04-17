@@ -49,20 +49,23 @@ This file contain the instructions for the work day, what want to achieve and wh
 
 ## Current Progress
 
-### Completed Tasks
-- ✅ Unit tests setup and configuration
-- ✅ Unit tests for critical utility functions (shuffleArray, generateQuizQuestion, getSymbolsByTypesAndComplexity)
-- ✅ GitHub Actions workflow for CI/CD pipeline
-- ✅ Webpack configuration for GitHub Pages deployment
-- ✅ Documentation for deployment and testing processes
-- ✅ Environment configuration for development and production
-- ✅ Android build workflow in GitHub Actions
-- ✅ App metadata configuration for mobile stores
-- ✅ App store preparation guide with requirements and templates
-- ✅ Privacy policy for app store submission
+### Today's Achievements
+- ✅ Unit tests setup and Jest configuration for React Native
+- ✅ Unit tests created for critical utility functions
+- ✅ GitHub Actions workflows for CI/CD setup
+- ✅ Separated web and Android build workflows for better reliability
+- ✅ Webpack configuration updated for GitHub Pages deployment
+- ✅ Created documentation for deployment, testing, and app store submission
+- ✅ Implemented environment handling for development and production builds
 
 ### Remaining Tasks
 - 📝 Create app icons and splash screens for mobile platforms
 - 📝 Set up integration tests for key user flows
 - 📝 Configure end-to-end testing with Detox
 - 📝 Implement performance monitoring
+
+### Challenges and Solutions
+- ✅ Resolved test configuration issues with Jest by switching from jest-expo to react-native preset
+- ✅ Fixed webpack configuration to handle asset copying more robustly
+- 🔄 Working on GitHub Actions workflow reliability by separating web and Android pipelines
+- ✅ Updated dependency installation in workflows to handle package-lock.json sync issues
