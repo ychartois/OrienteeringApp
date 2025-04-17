@@ -11,7 +11,7 @@ on:
       - 'frontend/**'
 
 jobs:
-  test-and-build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     defaults:
@@ -37,27 +37,10 @@ jobs:
     - name: Build web app
       run: npm run build-web
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: web-build
-        path: frontend/dist
-
-  deploy:
-    needs: test-and-build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Download build artifacts
-      uses: actions/download-artifact@v2
-      with:
-        name: web-build
-        path: dist
-
     - name: Deploy to GitHub Pages
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@v4
       with:
-        folder: dist
+        folder: frontend/dist
         branch: gh-pages
         clean: true
