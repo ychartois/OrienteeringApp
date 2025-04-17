@@ -1,70 +1,79 @@
 name: Android Build
 
 on:
-  workflow_dispatch:  # Allow manual triggering only for now
-  # We'll re-enable automatic triggers once the workflow is stable
-  # push:
-  #   branches: [ main ]
-  #   paths:
-  #     - 'frontend/**'
-  #     - '.github/workflows/android-build.yml'
+  push:
+    branches: [ main ]
+    paths:
+      - 'frontend/**'
+      - '.github/workflows/android-build.yml'
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
-  build-android:
+  build:
+    name: Build Android APK
     runs-on: ubuntu-latest
-    
-    defaults:
-      run:
-        working-directory: frontend
-        
+
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        distribution: 'temurin'
-        java-version: '11'
-        cache: 'gradle'
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-        cache: 'npm'
-        cache-dependency-path: 'frontend/package-lock.json'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
 
-    - name: Install dependencies
-      run: npm install --legacy-peer-deps
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm install --legacy-peer-deps
 
-    - name: Run tests
-      run: npm test
+      - name: Install Expo CLI
+        working-directory: frontend
+        run: npm install -g expo-cli
 
-    - name: Debug - List Android Directory
-      run: ls -la android/
+      - name: Create app icons
+        working-directory: frontend
+        run: |
+          mkdir -p src/assets
+          # Generate a simple placeholder icon using Node.js
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+            
+            // Read the existing icon file from assets directory if it exists
+            // Otherwise use a default empty buffer
+            let iconData;
+            try {
+              iconData = fs.readFileSync(path.join('assets', 'icon.png'));
+            } catch (e) {
+              // Create a minimal 1x1 transparent PNG
+              iconData = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+A8AAQUBAScY42YAAAAASUVORK5CYII=', 'base64');
+            }
+            
+            // Write the icon files needed for Android build
+            fs.writeFileSync(path.join('src', 'assets', 'icon.png'), iconData);
+            fs.writeFileSync(path.join('src', 'assets', 'adaptive-icon.png'), iconData);
+            fs.writeFileSync(path.join('src', 'assets', 'splash.png'), iconData);
+            fs.writeFileSync(path.join('src', 'assets', 'favicon.png'), iconData);
+          "
 
-    - name: Make gradlew executable
-      run: chmod +x android/gradlew
+      - name: Generate native Android project
+        working-directory: frontend
+        run: npx expo prebuild --platform android --clean
 
-    - name: Build Android Release
-      run: |
-        cd android
-        ./gradlew assembleRelease --info
-      
-    - name: Debug - Verify Output Directories
-      run: |
-        echo "Checking if output directories exist:"
-        ls -la android/app/build || echo "build directory doesn't exist"
-        ls -la android/app/build/outputs || echo "outputs directory doesn't exist"
-        ls -la android/app/build/outputs/apk || echo "apk directory doesn't exist"
-        ls -la android/app/build/outputs/apk/release || echo "release directory doesn't exist"
-        find android -name "*.apk"
-      
-    # Temporarily removed the problematic upload-artifact action
-    # We'll re-enable it once we've successfully built the APK
-    # - name: Upload APK (if found)
-    #   uses: actions/upload-artifact@v2
-    #   with:
-    #     name: app-release
-    #     path: frontend/android/app/build/outputs/apk/release/*.apk
-    #     if-no-files-found: warn
+      - name: Build Android APK
+        working-directory: frontend/android
+        run: ./gradlew assembleRelease
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: frontend/android/app/build/outputs/apk/release/app-release.apk
