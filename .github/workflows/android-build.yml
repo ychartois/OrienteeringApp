@@ -93,50 +93,47 @@ jobs:
             fs.writeFileSync('app.json', JSON.stringify(appJson, null, 2));
           "
 
-      - name: Create entry point files
+      - name: Create index.js entry point
         working-directory: frontend
         run: |
-          # Create a simple index.js entry point if it doesn't exist
           if [ ! -f index.js ]; then
             echo "Creating index.js entry point..."
-            cat > index.js << EOF
-            import { registerRootComponent } from 'expo';
-            import App from './src/App';
-
-            // Register the main component
-            registerRootComponent(App);
-            EOF
+            echo 'import { registerRootComponent } from "expo";' > index.js
+            echo 'import App from "./src/App";' >> index.js
+            echo '' >> index.js
+            echo '// Register the main component' >> index.js
+            echo 'registerRootComponent(App);' >> index.js
           fi
-          
-          # Create a simple App.tsx file if it doesn't exist
+
+      - name: Create App.tsx component
+        working-directory: frontend
+        run: |
           mkdir -p src
           if [ ! -f src/App.tsx ]; then
             echo "Creating App.tsx component..."
-            cat > src/App.tsx << EOF
-            import React from 'react';
-            import { View, Text, StyleSheet } from 'react-native';
-
-            export default function App() {
-              return (
-                <View style={styles.container}>
-                  <Text style={styles.text}>Orienteering App</Text>
-                </View>
-              );
-            }
-
-            const styles = StyleSheet.create({
-              container: {
-                flex: 1,
-                backgroundColor: '#fff',
-                alignItems: 'center',
-                justifyContent: 'center',
-              },
-              text: {
-                fontSize: 24,
-                fontWeight: 'bold',
-              },
-            });
-            EOF
+            echo 'import React from "react";' > src/App.tsx
+            echo 'import { View, Text, StyleSheet } from "react-native";' >> src/App.tsx
+            echo '' >> src/App.tsx
+            echo 'export default function App() {' >> src/App.tsx
+            echo '  return (' >> src/App.tsx
+            echo '    <View style={styles.container}>' >> src/App.tsx
+            echo '      <Text style={styles.text}>Orienteering App</Text>' >> src/App.tsx
+            echo '    </View>' >> src/App.tsx
+            echo '  );' >> src/App.tsx
+            echo '}' >> src/App.tsx
+            echo '' >> src/App.tsx
+            echo 'const styles = StyleSheet.create({' >> src/App.tsx
+            echo '  container: {' >> src/App.tsx
+            echo '    flex: 1,' >> src/App.tsx
+            echo '    backgroundColor: "#fff",' >> src/App.tsx
+            echo '    alignItems: "center",' >> src/App.tsx
+            echo '    justifyContent: "center",' >> src/App.tsx
+            echo '  },' >> src/App.tsx
+            echo '  text: {' >> src/App.tsx
+            echo '    fontSize: 24,' >> src/App.tsx
+            echo '    fontWeight: "bold",' >> src/App.tsx
+            echo '  },' >> src/App.tsx
+            echo '});' >> src/App.tsx
           fi
 
       - name: Generate native Android project
