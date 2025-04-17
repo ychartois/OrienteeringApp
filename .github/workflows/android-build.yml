@@ -34,14 +34,13 @@ jobs:
         working-directory: frontend
         run: |
           npm install --legacy-peer-deps
-          # Ensure expo is installed
           npm install expo@latest
 
       - name: Create app icons
         working-directory: frontend
         run: |
           mkdir -p src/assets
-          # Generate a simple placeholder icon using Node.js
+          # Generate placeholder icons
           node -e "
             const fs = require('fs');
             const path = require('path');
@@ -87,28 +86,22 @@ jobs:
         working-directory: frontend
         run: |
           # Use npx directly instead of global expo-cli
-          npx expo-cli prebuild --platform android --clean --no-install
+          npx expo prebuild --platform android --clean
 
-      - name: Fix Gradle and React Native settings
+      - name: Fix settings.gradle
         working-directory: frontend/android
         run: |
-          # Update settings.gradle to fix the React plugin issue
+          # Create a new settings.gradle file using relative paths
           cat > settings.gradle << EOF
           rootProject.name = 'orienteeringapp'
 
-          apply from: new File(["node", "--print", "require.resolve('expo/package.json')"].execute(null, rootDir).text.trim(), "../scripts/autolinking.gradle");
-          useExpoModules()
-
-          apply from: new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json')"].execute(null, rootDir).text.trim(), "../react.gradle");
-
+          // Use relative paths to fix the double OrienteeringApp issue
+          apply from: "../node_modules/expo/android/settings.gradle"
+          
           include ':app'
-          includeBuild(new File(["node", "--print", "require.resolve('@react-native/gradle-plugin/package.json')"].execute(null, rootDir).text.trim()).getParentFile())
           EOF
           
-          # Update Gradle wrapper to a compatible version
-          echo "Updating Gradle wrapper to compatible version..."
-          
-          # Create gradle-wrapper.properties with correct version
+          # Update Gradle wrapper properties
           mkdir -p gradle/wrapper
           cat > gradle/wrapper/gradle-wrapper.properties << EOF
           distributionBase=GRADLE_USER_HOME
@@ -118,22 +111,13 @@ jobs:
           zipStorePath=wrapper/dists
           EOF
           
-          # Update build.gradle to use compatible Gradle plugin version
-          echo "Updating build.gradle..."
-          
-          # Create a backup of the original build.gradle
-          cp build.gradle build.gradle.bak
-          
-          # Modify the build.gradle file to use a compatible version
-          sed -i 's/com.android.tools.build:gradle:[0-9.]*"/com.android.tools.build:gradle:7.3.1"/g' build.gradle
-          sed -i 's/classpath("com.android.tools.build:gradle:[0-9.]*")/classpath("com.android.tools.build:gradle:7.3.1")/g' build.gradle
+          # Make gradlew executable
+          chmod +x ./gradlew
 
       - name: Build Android APK
         working-directory: frontend/android
         run: |
-          # Make gradlew executable
-          chmod +x ./gradlew
-          ./gradlew assembleRelease --stacktrace
+          ./gradlew assembleRelease --info
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
