@@ -1,4 +1,59 @@
 {
   "name": "OrienteeringApp",
-  "displayName": "Orienteering App"
+  "displayName": "Orienteering App: Learn Map Symbols",
+  "version": "1.0.0",
+  "description": "Learn orienteering map symbols and test your knowledge",
+  "author": {
+    "name": "Orienteering App Team",
+    "email": "contact@orienteeringapp.com",
+    "url": "https://www.orienteeringapp.com"
+  },
+  "private": true,
+  "expo": {
+    "name": "Orienteering App",
+    "slug": "orienteering-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./src/assets/icon.png",
+    "splash": {
+      "image": "./src/assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.orienteeringapp.mobile",
+      "buildNumber": "1",
+      "infoPlist": {
+        "UIRequiresFullScreen": true,
+        "CFBundleAllowMixedLocalizations": true
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./src/assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      },
+      "package": "com.orienteeringapp.mobile",
+      "versionCode": 1,
+      "permissions": []
+    },
+    "web": {
+      "favicon": "./src/assets/favicon.png"
+    },
+    "locales": {
+      "en": "./src/locales/en.json"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "orienteering-app"
+      }
+    }
+  }
 }

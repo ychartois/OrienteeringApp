@@ -14,23 +14,23 @@ This file contain the instructions for the work day, what want to achieve and wh
 
 ### Items covered from the current roadmap
 #### 🔄 Deployment
-- 📝 Web deployment configuration
-- 📝 Mobile app store preparation
-- 📝 CI/CD pipeline with GitHub Actions
+- ✅ Web deployment configuration with GitHub Pages
+- ✅ Mobile app store preparation
+- ✅ CI/CD pipeline with GitHub Actions
 
 #### 🔄 Testing & Quality
 - ✅ Unit tests for core functionality
-- 📝 Integration tests for key user flows
+- 🔄 Integration tests for key user flows
 - 📝 End-to-end testing with Detox
 
 ### Additional Items to Consider
 
 #### 🔄 Environment Configuration
-- 📝 Setting up different environments (dev, staging, production)
-- 📝 Managing environment variables across platforms
+- ✅ Setting up different environments (dev, staging, production)
+- ✅ Managing environment variables across platforms
 
 #### 🔄 Web Hosting Setup
-- 📝 Selecting a hosting provider (GitHub Pages, Netlify, Vercel, etc.)
+- ✅ Selecting a hosting provider (GitHub Pages)
 - 📝 Domain configuration if needed
 
 #### 🔄 Performance Monitoring
@@ -42,14 +42,27 @@ This file contain the instructions for the work day, what want to achieve and wh
 - 📝 Implementing proper CORS policies for the web version
 
 #### 🔄 Documentation
-- 📝 Creating deployment documentation
-- 📝 Creating testing documentation for future contributors
+- ✅ Creating deployment documentation
+- ✅ Creating testing documentation for future contributors
+- ✅ Creating app store preparation guide
+- ✅ Creating privacy policy for app stores
 
 ## Current Progress
 
 ### Completed Tasks
 - ✅ Unit tests setup and configuration
 - ✅ Unit tests for critical utility functions (shuffleArray, generateQuizQuestion, getSymbolsByTypesAndComplexity)
+- ✅ GitHub Actions workflow for CI/CD pipeline
+- ✅ Webpack configuration for GitHub Pages deployment
+- ✅ Documentation for deployment and testing processes
+- ✅ Environment configuration for development and production
+- ✅ Android build workflow in GitHub Actions
+- ✅ App metadata configuration for mobile stores
+- ✅ App store preparation guide with requirements and templates
+- ✅ Privacy policy for app store submission
 
-### In Progress
-- 🔄 Integration tests for key user flows
+### Remaining Tasks
+- 📝 Create app icons and splash screens for mobile platforms
+- 📝 Set up integration tests for key user flows
+- 📝 Configure end-to-end testing with Detox
+- 📝 Implement performance monitoring

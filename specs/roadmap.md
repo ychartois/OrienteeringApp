@@ -91,7 +91,7 @@ This document outlines the complete roadmap for the OrienteeringApp project, tra
 - 📝 Analytics implementation
 
 ### 🔄 Testing & Quality
-- 📝 Unit tests for core functionality
+- ✅ Unit tests for core functionality
 - 📝 Integration tests for key user flows
 - 📝 End-to-end testing with Detox
 - 📝 Performance optimization

@@ -1,12 +1,18 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+// Get the repository name from package.json or environment variable
+const repoName = process.env.REPO_NAME || 'OrienteeringApp';
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: './index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/'
+    // For GitHub Pages deployment, use the repository name as the base path in production
+    publicPath: isProduction ? `/${repoName}/` : '/'
   },
   module: {
     rules: [
@@ -67,6 +73,15 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, 'public', 'index.html'),
+    }),
+    // Copy static assets to the dist folder
+    new CopyWebpackPlugin({
+      patterns: [
+        { 
+          from: path.resolve(__dirname, 'src/assets'),
+          to: 'assets'
+        },
+      ],
     }),
   ],
   devServer: {
