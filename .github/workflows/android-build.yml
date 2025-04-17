@@ -39,13 +39,29 @@ jobs:
     - name: Run tests
       run: npm test
 
+    - name: Debug - List Android Directory
+      run: ls -la android/
+
+    - name: Make gradlew executable
+      run: chmod +x android/gradlew
+
     - name: Build Android Release
       run: |
         cd android
-        ./gradlew assembleRelease
+        ./gradlew assembleRelease --info
       
-    - name: Upload APK
+    - name: Debug - Verify Output Directories
+      run: |
+        echo "Checking if output directories exist:"
+        ls -la android/app/build || echo "build directory doesn't exist"
+        ls -la android/app/build/outputs || echo "outputs directory doesn't exist"
+        ls -la android/app/build/outputs/apk || echo "apk directory doesn't exist"
+        ls -la android/app/build/outputs/apk/release || echo "release directory doesn't exist"
+        find android -name "*.apk"
+      
+    - name: Upload APK (if found)
       uses: actions/upload-artifact@v2
       with:
         name: app-release
-        path: frontend/android/app/build/outputs/apk/release/app-release.apk
+        path: frontend/android/app/build/outputs/apk/release/*.apk
+        if-no-files-found: warn  # This will warn instead of failing if no files are found
