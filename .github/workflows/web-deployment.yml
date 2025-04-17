@@ -18,6 +18,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        persist-credentials: false # This option prevents using the default GITHUB_TOKEN
 
     - name: Setup Node.js
       uses: actions/setup-node@v3
@@ -41,3 +43,4 @@ jobs:
         folder: frontend/dist
         branch: gh-pages
         clean: true
+        token: ${{ secrets.GITHUB_TOKEN }} # This will use the built-in token
