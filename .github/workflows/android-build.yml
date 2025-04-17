@@ -17,11 +17,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '11'
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -154,78 +154,39 @@ jobs:
           mkdir -p app
           keytool -genkeypair -v -keystore app/debug.keystore -storepass android -alias androiddebugkey -keypass android -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=Android Debug,O=Android,C=US" || echo "Keystore generation failed, but continuing"
           
-          # Create a new simplified settings.gradle that doesn't depend on Expo scripts
+          # Create a very simple settings.gradle
           cat > settings.gradle << EOF
           rootProject.name = 'orienteeringapp'
           include ':app'
-          
-          // Include React Native modules automatically
-          def reactNativeModules = new File(['node', '--print', 'require.resolve("react-native/package.json")'].execute(null, rootDir).text.trim()).getParentFile().parentFile
-          include ':react-native-gradle-plugin'
-          project(':react-native-gradle-plugin').projectDir = new File("\${reactNativeModules}/@react-native/gradle-plugin")
-          
-          // Manual inclusion of required modules
-          include ':expo'
-          project(':expo').projectDir = new File(rootDir, '../node_modules/expo/android')
-          
-          include ':expo-application'
-          project(':expo-application').projectDir = new File(rootDir, '../node_modules/expo-application/android')
-          
-          include ':expo-constants'
-          project(':expo-constants').projectDir = new File(rootDir, '../node_modules/expo-constants/android')
-          
-          include ':expo-file-system'
-          project(':expo-file-system').projectDir = new File(rootDir, '../node_modules/expo-file-system/android')
-          
-          include ':expo-font'
-          project(':expo-font').projectDir = new File(rootDir, '../node_modules/expo-font/android')
-          
-          include ':expo-keep-awake'
-          project(':expo-keep-awake').projectDir = new File(rootDir, '../node_modules/expo-keep-awake/android')
           EOF
           
-          # Create or update build.gradle with explicit versions
+          # Create a very simple build.gradle without external dependencies
           cat > build.gradle << EOF
           // Top-level build file where you can add configuration options common to all sub-projects/modules.
           
           buildscript {
               ext {
-                  buildToolsVersion = findProperty('android.buildToolsVersion') ?: '33.0.0'
-                  minSdkVersion = Integer.parseInt(findProperty('android.minSdkVersion') ?: '21')
-                  compileSdkVersion = Integer.parseInt(findProperty('android.compileSdkVersion') ?: '33')
-                  targetSdkVersion = Integer.parseInt(findProperty('android.targetSdkVersion') ?: '33')
-                  kotlinVersion = findProperty('android.kotlinVersion') ?: '1.8.0'
-                  ndkVersion = "23.1.7779620"
+                  buildToolsVersion = "30.0.3"
+                  minSdkVersion = 21
+                  compileSdkVersion = 30
+                  targetSdkVersion = 30
+                  ndkVersion = "21.4.7075529"
+                  kotlinVersion = "1.6.10"
                   // Add hermesEnabled for app/build.gradle
-                  hermesEnabled = findProperty('expo.jsEngine') ?: "hermes"
+                  hermesEnabled = true
               }
               repositories {
                   google()
                   mavenCentral()
-                  // Add jitpack repository for react-native-gradle-plugin
-                  maven { url 'https://www.jitpack.io' }
               }
               dependencies {
-                  classpath('com.android.tools.build:gradle:7.3.1')
-                  // Use a specific version that's available on jitpack
-                  classpath('com.github.facebook:react-native-gradle-plugin:v0.71.19')
-                  classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:\${kotlinVersion}")
+                  classpath("com.android.tools.build:gradle:4.2.2")
+                  classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
               }
           }
           
-          apply plugin: "com.facebook.react.rootproject"
-          
           allprojects {
               repositories {
-                  maven {
-                      // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-                      url(new File(['node', '--print', "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim(), '../android'))
-                  }
-                  maven {
-                      // Android JSC is installed from npm
-                      url(new File(['node', '--print', "require.resolve('jsc-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim(), '../dist'))
-                  }
-          
                   google()
                   mavenCentral()
                   maven { url 'https://www.jitpack.io' }
@@ -294,24 +255,6 @@ jobs:
           cat > app/build.gradle << EOF
           apply plugin: "com.android.application"
           apply plugin: "org.jetbrains.kotlin.android"
-          apply plugin: "com.facebook.react"
-
-          def projectRoot = rootDir.getAbsoluteFile().getParentFile().getAbsolutePath()
-
-          react {
-              // Use a simple entry point
-              entryFile = file("../index.js")
-              reactNativeDir = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
-              hermesCommand = new File(["node", "--print", "require.resolve('react-native/package.json')"].execute(null, rootDir).text.trim()).getParentFile().getAbsolutePath() + "/sdks/hermesc/%OS-BIN%/hermesc"
-              codegenDir = new File(["node", "--print", "require.resolve('@react-native/codegen/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()).getParentFile().getAbsoluteFile()
-              bundleCommand = "bundle"
-              
-              // Autolinking
-              autolinkLibrariesWithApp()
-          }
-
-          def enableProguardInReleaseBuilds = (findProperty('android.enableProguardInReleaseBuilds') ?: false).toBoolean()
-          def jscFlavor = 'org.webkit:android-jsc:+'
 
           android {
               ndkVersion rootProject.ext.ndkVersion
@@ -341,29 +284,16 @@ jobs:
                   }
                   release {
                       signingConfig signingConfigs.debug
-                      minifyEnabled enableProguardInReleaseBuilds
+                      minifyEnabled false
                       proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
                   }
               }
           }
 
           dependencies {
-              // The version of react-native is set by the React Native Gradle Plugin
-              implementation("com.facebook.react:react-android")
-
-              if (rootProject.ext.hermesEnabled.toBoolean()) {
-                  implementation("com.facebook.react:hermes-android")
-              } else {
-                  implementation jscFlavor
-              }
-              
-              // Add explicit dependencies for Expo modules
-              implementation project(':expo')
-              implementation project(':expo-application')
-              implementation project(':expo-constants')
-              implementation project(':expo-file-system')
-              implementation project(':expo-font')
-              implementation project(':expo-keep-awake')
+              implementation "com.android.support:appcompat-v7:28.0.0"
+              implementation "com.facebook.react:react-native:+"
+              implementation "org.jetbrains.kotlin:kotlin-stdlib:$rootProject.ext.kotlinVersion"
           }
           EOF
           
@@ -372,7 +302,7 @@ jobs:
           cat > gradle/wrapper/gradle-wrapper.properties << EOF
           distributionBase=GRADLE_USER_HOME
           distributionPath=wrapper/dists
-          distributionUrl=https\://services.gradle.org/distributions/gradle-7.5.1-all.zip
+          distributionUrl=https\://services.gradle.org/distributions/gradle-6.7.1-all.zip
           zipStoreBase=GRADLE_USER_HOME
           zipStorePath=wrapper/dists
           EOF
