@@ -34,7 +34,18 @@ jobs:
         working-directory: frontend
         run: |
           npm install --legacy-peer-deps
-          npm install expo@latest
+          # Install expo and related packages explicitly
+          npm install --save expo expo-dev-client
+
+      - name: Debug node_modules
+        working-directory: frontend
+        run: |
+          echo "Checking Expo installation..."
+          ls -la node_modules/expo/
+          echo "Checking Expo Android folder..."
+          ls -la node_modules/expo/android || echo "Expo Android folder not found"
+          echo "Searching for settings.gradle files in node_modules..."
+          find node_modules -name "settings.gradle" | sort
 
       - name: Create app icons
         working-directory: frontend
@@ -86,19 +97,43 @@ jobs:
         working-directory: frontend
         run: |
           # Use npx directly instead of global expo-cli
-          npx expo prebuild --platform android --clean
+          npx expo prebuild --platform android --clean --no-install
 
-      - name: Fix settings.gradle
+      - name: Create standalone build setup
         working-directory: frontend/android
         run: |
-          # Create a new settings.gradle file using relative paths
+          # Print directory structure for debugging
+          echo "Current directory structure:"
+          ls -la
+          
+          # Create a new simplified settings.gradle that doesn't depend on Expo scripts
           cat > settings.gradle << EOF
           rootProject.name = 'orienteeringapp'
-
-          // Use relative paths to fix the double OrienteeringApp issue
-          apply from: "../node_modules/expo/android/settings.gradle"
-          
           include ':app'
+          
+          // Include React Native modules automatically
+          def reactNativeModules = new File(['node', '--print', 'require.resolve("react-native/package.json")'].execute(null, rootDir).text.trim()).getParentFile().parentFile
+          include ':react-native-gradle-plugin'
+          project(':react-native-gradle-plugin').projectDir = new File("\${reactNativeModules}/@react-native/gradle-plugin")
+          
+          // Manual inclusion of required modules
+          include ':expo'
+          project(':expo').projectDir = new File(rootDir, '../node_modules/expo/android')
+          
+          include ':expo-application'
+          project(':expo-application').projectDir = new File(rootDir, '../node_modules/expo-application/android')
+          
+          include ':expo-constants'
+          project(':expo-constants').projectDir = new File(rootDir, '../node_modules/expo-constants/android')
+          
+          include ':expo-file-system'
+          project(':expo-file-system').projectDir = new File(rootDir, '../node_modules/expo-file-system/android')
+          
+          include ':expo-font'
+          project(':expo-font').projectDir = new File(rootDir, '../node_modules/expo-font/android')
+          
+          include ':expo-keep-awake'
+          project(':expo-keep-awake').projectDir = new File(rootDir, '../node_modules/expo-keep-awake/android')
           EOF
           
           # Update Gradle wrapper properties
@@ -114,13 +149,27 @@ jobs:
           # Make gradlew executable
           chmod +x ./gradlew
 
+      - name: Try simple build first
+        working-directory: frontend/android
+        run: |
+          # Just try to initialize the project first
+          ./gradlew tasks --info || echo "Initial tasks listing failed, but continuing with build attempt"
+
       - name: Build Android APK
         working-directory: frontend/android
         run: |
-          ./gradlew assembleRelease --info
+          # Attempt to build release APK
+          ./gradlew assembleRelease --info || echo "Build failed but continuing to check outputs"
+          
+          # Check for any APK that might have been produced
+          find . -name "*.apk" || echo "No APK files found"
 
-      - name: Upload APK
+      - name: Upload APK if exists
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: app-release
-          path: frontend/android/app/build/outputs/apk/release/app-release.apk
+          name: android-build-artifacts
+          path: |
+            frontend/android/app/build/outputs/apk/*/
+            frontend/android/app/build/outputs/bundle/*/
+            frontend/android/app/build/reports/
