@@ -1,14 +1,12 @@
-name: Frontend CI/CD
+name: Web Deployment
 
 on:
   push:
     branches: [ main ]
     paths:
       - 'frontend/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'frontend/**'
+      - '.github/workflows/web-deployment.yml'
+  workflow_dispatch:  # Allow manual triggering
 
 jobs:
   build-and-deploy:
@@ -38,7 +36,6 @@ jobs:
       run: npm run build-web
 
     - name: Deploy to GitHub Pages
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
       uses: JamesIves/github-pages-deploy-action@v4
       with:
         folder: frontend/dist

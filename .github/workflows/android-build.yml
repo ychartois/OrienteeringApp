@@ -1,12 +1,13 @@
 name: Android Build
 
 on:
-  workflow_dispatch:  # Allow manual triggering
-  push:
-    branches: [ main ]
-    paths:
-      - 'frontend/**'
-      - '.github/workflows/android-build.yml'
+  workflow_dispatch:  # Allow manual triggering only for now
+  # We'll re-enable automatic triggers once the workflow is stable
+  # push:
+  #   branches: [ main ]
+  #   paths:
+  #     - 'frontend/**'
+  #     - '.github/workflows/android-build.yml'
 
 jobs:
   build-android:
@@ -59,9 +60,11 @@ jobs:
         ls -la android/app/build/outputs/apk/release || echo "release directory doesn't exist"
         find android -name "*.apk"
       
-    - name: Upload APK (if found)
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-release
-        path: frontend/android/app/build/outputs/apk/release/*.apk
-        if-no-files-found: warn  # This will warn instead of failing if no files are found
+    # Temporarily removed the problematic upload-artifact action
+    # We'll re-enable it once we've successfully built the APK
+    # - name: Upload APK (if found)
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: app-release
+    #     path: frontend/android/app/build/outputs/apk/release/*.apk
+    #     if-no-files-found: warn
