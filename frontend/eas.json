@@ -15,20 +15,19 @@
         "buildConfiguration": "Debug"
       }
     },
-      "preview": {
-        "distribution": "internal",
-        "android": {
-          "buildType": "apk",
-          "gradleCommand": ":app:assembleRelease",
-          "image": "ubuntu-22.04-jdk-17-ndk-r25b"
-        },
-        "env": {
+    "preview": {
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "env": {
         "EXPO_PUBLIC_API_URL": "https://api.example.com"
       }
     },
     "production": {
       "android": {
-        "buildType": "app-bundle"
+        "buildType": "apk"
       }
     }
   },
