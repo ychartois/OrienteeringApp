@@ -19,19 +19,28 @@ This document outlines established workflow conventions, preferences, and best p
 
 ### Testing Process
 
-1. **Run unit tests** before making any commits:
+1. **Run code quality checks** before making any commits:
+   ```bash
+   # Check code formatting
+   cd frontend && npm run format:check
+   
+   # Run TypeScript type checking
+   cd frontend && npm run typecheck
+   ```
+
+2. **Run unit tests** before making any commits:
    ```bash
    cd frontend && npm test
    # or for specific tests:
    cd frontend && npm test -- <test-name>
    ```
 
-2. **Always wait for visual confirmation** after testing UI changes:
+3. **Always wait for visual confirmation** after testing UI changes:
    - Start the development server and manually verify changes
    - Check both mobile and web interfaces when applicable
    - Verify behavior with different input scenarios
 
-3. **After implementing changes**:
+4. **After implementing changes**:
    - Run tests again to ensure nothing was broken
    - Check for TypeScript errors
    - Verify test coverage for new functionality
