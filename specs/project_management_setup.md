@@ -18,6 +18,18 @@ We use Work Session Objectives documents to establish clear goals for each devel
 
 [Template available here](work_session_objectives_template.md)
 
+### Integration with GitHub Issues
+Work Session Objectives are integrated with GitHub Issues to ensure visibility and tracking:
+
+1. Each work session has a corresponding GitHub Issue created using the Work Session template
+2. The Issue is used to track progress and completion of session goals
+3. Specific tasks identified during the session can be created as separate issues and linked
+4. The Work Session Issue provides a centralized reference point in GitHub Projects
+
+This dual-documentation approach ensures:
+- Technical documentation in the repository's specs directory
+- Visibility and tracking in GitHub's project management tools
+
 ## GitHub Project Structure
 Our GitHub Project board has the following columns:
 - **Backlog**: Issues to be addressed in the future
@@ -28,17 +40,18 @@ Our GitHub Project board has the following columns:
 
 ## GitHub Templates
 We use standardized templates for consistency:
-- **Issues**: Templates for feature requests and bug reports
+- **Issues**: Templates for feature requests, bug reports, and work session objectives
 - **Pull Requests**: Template ensuring proper documentation of changes
 - **Work Session Objectives**: Template for planning and tracking development sessions
 
 ## Workflow Process
 
 ### Starting a Work Session
-1. Create a new Work Session Objectives document using the template
-2. Link relevant GitHub issues
-3. Set clear goals and success criteria
-4. Identify questions for AI assistance
+1. Create a new Work Session Objectives document using the template in the specs directory
+2. Create a corresponding GitHub Issue using the Work Session Objectives template
+3. Link relevant GitHub issues to the work session
+4. Set clear goals and success criteria
+5. Identify questions for AI assistance
 
 ### During Development
 1. Create feature/bugfix branch following our branch naming convention
