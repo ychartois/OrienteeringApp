@@ -11,11 +11,31 @@ We follow a modified GitFlow branching model that's optimized for our project ne
 - **main** - The production branch containing the current released version. All code in this branch should be stable and deployable.
 - **develop** - The main development branch where feature branches are merged. This branch contains the latest development changes that will be included in the next release.
 
-### Supporting Branches
+### Branch Naming Conventions
 
-- **feature/<feature-name>** - Feature branches are created from the develop branch and contain work for specific features or improvements.
-- **release/<version>** - Created from develop when preparing a new release. Only bug fixes and release-specific changes go here.
-- **hotfix/<issue>** - Created from main to quickly address critical production issues.
+All branches should follow these specific naming patterns for consistency and to enable proper automation:
+
+- **Feature branches**: `feature/<issue-number>-<short-description>`
+  - Example: `feature/42-add-quiz-scoring`
+  - Always branch from: `develop`
+  - Merge back to: `develop`
+
+- **Bug fix branches**: `bugfix/<issue-number>-<short-description>`
+  - Example: `bugfix/57-fix-symbol-rendering`
+  - Always branch from: `develop`
+  - Merge back to: `develop`
+
+- **Release branches**: `release/v<major>.<minor>.<patch>`
+  - Example: `release/v1.2.0`
+  - Always branch from: `develop`
+  - Merge to: `main` and back to `develop`
+
+- **Hotfix branches**: `hotfix/<issue-number>-<short-description>`
+  - Example: `hotfix/68-fix-crash-on-startup`
+  - Always branch from: `main`
+  - Merge to: `main` and `develop`
+
+Including the issue number in the branch name helps with traceability and enables GitHub automation.
 
 ## Branch Workflow
 
@@ -110,18 +130,43 @@ Our GitHub Actions workflows are configured to trigger builds based on specific 
 
 ### GitHub Actions Configuration
 
-Our workflows are defined to respect these trigger rules:
+Our workflows are specifically configured for different branch events:
+
+#### Branch-Based Workflow Triggers:
+
+| Workflow | Trigger Event | Branch Pattern | Purpose |
+|----------|--------------|----------------|---------|
+| **CI Test** | Push, Pull Request | `feature/*`, `bugfix/*`, PRs to `develop` | Run tests and linting for development changes |
+| **Development Build** | Push | `develop` | Create development build for testing |
+| **Web Preview** | Push | `develop` | Deploy to staging/preview environment |
+| **Web Deployment** | Push | `main` | Deploy to production website |
+| **Android Build** | Push | `main` | Build release candidate for Android |
+| **Release Build** | Tag Push | `v*.*.*` | Build production versions for app stores |
+
+Example workflow configurations:
 
 ```yaml
-# Example trigger for web deployment workflow
+# CI Test workflow
 on:
   push:
     branches:
+      - 'feature/**'
+      - 'bugfix/**'
+  pull_request:
+    branches:
+      - develop
       - main
+
+# Development build workflow
+on:
+  push:
+    branches:
+      - develop
     paths:
       - 'frontend/**'
+      - 'backend/**'
 
-# Example trigger for Android release build
+# Release build workflow
 on:
   push:
     tags:
