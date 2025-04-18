@@ -61,9 +61,13 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|ts|tsx)$/,
-        exclude: /node_modules\/(?!(react-native-vector-icons)\/).*/,
+        exclude: /node_modules\/(?!(react-native-vector-icons|@react-native\/assets-registry)\/).*/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript'],
+            plugins: ['@babel/plugin-proposal-class-properties']
+          }
         },
       },
       {

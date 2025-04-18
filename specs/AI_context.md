@@ -15,7 +15,7 @@ This file contain the instructions for the work day, what want to achieve and wh
 ### Items covered from the current roadmap
 #### 🔄 Deployment
 - ✅ Web deployment configuration with GitHub Pages
-- ✅ Mobile app deployment with EAS Build
+- 🔄 Mobile app deployment with EAS Build
 - ✅ CI/CD pipeline with GitHub Actions
 
 #### 🔄 Branching & Release Strategy
@@ -65,10 +65,11 @@ This file contain the instructions for the work day, what want to achieve and wh
 - ✅ Implemented environment handling for development and production builds
 - ✅ Created placeholder app icons and splash screens for Android build
 - ✅ Set up eas.json configuration for EAS builds
+- ✅ Fixed Metro development server image loading issues
 
 ### Tomorrow's Plan
-- 📝 Configure EAS Build in GitHub Actions for Android deployment
-- 📝 Implement branching strategy to control when builds are triggered
+- 🔄 Implement branching strategy to control when builds are triggered
+- ✅ Configure EAS Build in GitHub Actions for Android deployment
 - 📝 Create release workflow for versioned app releases
 - 📝 Document the release process for team members
 
@@ -78,3 +79,4 @@ This file contain the instructions for the work day, what want to achieve and wh
 - ✅ Identified issues with direct Android builds in GitHub Actions
 - ✅ Decided to use Expo's EAS Build service for more reliable Android builds
 - ✅ Created necessary icon and splash screen assets for Android builds
+- ✅ Fixed asset loading in Metro development server through improved configuration

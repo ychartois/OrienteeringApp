@@ -57,9 +57,45 @@ react {
     //
     //   The list of flags to pass to the Hermes compiler. By default is "-O", "-output-source-map"
     // hermesFlags = ["-O", "-output-source-map"]
+}
 
-    /* Autolinking */
-    autolinkLibrariesWithApp()
+// Custom hack to handle missing autolinking file
+project.ext.react = [
+    enableHermes: true,
+]
+
+// Create directories and files that might be missing during EAS build
+def createMissingFiles() {
+    def autolinkDir = new File("$rootDir/build/generated/autolinking")
+    if (!autolinkDir.exists()) {
+        autolinkDir.mkdirs()
+    }
+    
+    def autolinkFile = new File("$rootDir/build/generated/autolinking/autolinking.json")
+    if (!autolinkFile.exists()) {
+        autolinkFile.text = '{}'
+    }
+}
+
+// Run this before the evaluation phase to ensure the files exist
+createMissingFiles()
+
+// Handle the native modules more carefully to avoid null pointer exceptions
+try {
+    def cliPlatformAndroidPath = ["node", "--print", "require.resolve('@react-native-community/cli-platform-android/package.json', { paths: [require.resolve('react-native/package.json')] })"].execute(null, rootDir).text.trim()
+    if (cliPlatformAndroidPath != null && cliPlatformAndroidPath.length() > 0) {
+        def nativeModulesFile = new File(new File(cliPlatformAndroidPath).getParentFile(), "native_modules.gradle")
+        if (nativeModulesFile.exists()) {
+            apply from: nativeModulesFile
+            applyNativeModulesAppBuildGradle(project)
+        } else {
+            println "Warning: native_modules.gradle not found at expected location. Autolinking may not work correctly."
+        }
+    } else {
+        println "Warning: Could not resolve @react-native-community/cli-platform-android. Autolinking may not work correctly."
+    }
+} catch (Exception e) {
+    println "Warning: Error applying native modules: ${e.message}. Build will continue."
 }
 
 /**

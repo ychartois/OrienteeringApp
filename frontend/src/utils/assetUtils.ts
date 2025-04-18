@@ -2,6 +2,7 @@
  * Utility functions for handling assets
  */
 import symbolsData from '../data/symbols.json';
+import { Platform } from 'react-native';
 
 export interface Symbol {
   id: string;
@@ -13,6 +14,17 @@ export interface Symbol {
   description?: string;
   complexity?: number;
 }
+
+// Get the asset path prefix based on environment
+const getAssetPrefix = () => {
+  // For web platform
+  if (Platform.OS === 'web') {
+    // Use defined asset path from webpack or default
+    return process.env.ASSET_PATH || '/';
+  }
+  // For native platforms
+  return '';
+};
 
 /**
  * Get the image path for a symbol
@@ -39,20 +51,56 @@ export const getSymbolImagePath = (symbolRef: string, symbolType: string, symbol
     column = 'Column_G';
   }
   
-  // Build the path
-  return `../../assets/${column} - ${symbolType} - ${symbolRef} - ${formattedName}.png`;
+  // Generate the image filename
+  const filename = `${column} - ${symbolType} - ${symbolRef} - ${formattedName}.png`;
+  
+  // On web, handle the path differently for Metro and webpack
+  if (Platform.OS === 'web') {
+    // For webpack port 3000, retain the current behavior
+    if (window.location.port === '3000') {
+      return `../../assets/${filename}`;
+    }
+    // For Metro port 8081
+    return `assets/${filename}`;
+  }
+  
+  // For native platforms
+  return `assets/${filename}`;
 };
 
 /**
  * Get a portable path to an asset regardless of platform
- * @param imageName - The name of the image file
+ * @param imagePath - The name of the image file
  * @returns The path to the image that works in both web and native
  */
 export const getAssetPath = (imagePath: string): string => {
-  // For images moved to frontend/src/assets
-  if (imagePath.includes('../../assets')) {
-    return imagePath.replace('../../assets', '/assets');
+  if (!imagePath) return '';
+  
+  // On web, handle the path differently for Metro and webpack
+  if (Platform.OS === 'web') {
+    // For webpack port 3000, retain the current behavior
+    if (window.location.port === '3000') {
+      if (imagePath.includes('../../assets')) {
+        return imagePath.replace('../../assets', '/assets');
+      }
+    } 
+    // For Metro port 8081
+    else {
+      // When the path includes "../../assets", the file is in src/assets
+      if (imagePath.includes('../../assets')) {
+        // Ensure the path explicitly includes src/assets
+        return `src/assets/${imagePath.split('/').pop()}`;
+      }
+    }
   }
+  
+  // For local file path references in native
+  if (imagePath.includes('../../assets')) {
+    // For native, require doesn't work with dynamic paths,
+    // so we would handle this differently in a native context
+    return `src/assets/${imagePath.split('/').pop()}`;
+  }
+  
   return imagePath;
 };
 
