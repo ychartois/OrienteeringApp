@@ -1,6 +1,6 @@
 {
   "cli": {
-    "version": "5.9.3",
+    "version": ">= 5.9.3",
     "appVersionSource": "remote"
   },
   "build": {
@@ -15,14 +15,14 @@
         "buildConfiguration": "Debug"
       }
     },
-    "preview": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk",
-        "gradleCommand": ":app:assembleRelease",
-        "image": "ubuntu-22.04-jdk-17-ndk-r25b"
-      },
-      "env": {
+      "preview": {
+        "distribution": "internal",
+        "android": {
+          "buildType": "apk",
+          "gradleCommand": ":app:assembleRelease",
+          "image": "ubuntu-22.04-jdk-17-ndk-r25b"
+        },
+        "env": {
         "EXPO_PUBLIC_API_URL": "https://api.example.com"
       }
     },

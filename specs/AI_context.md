@@ -78,5 +78,10 @@ This file contain the instructions for the work day, what want to achieve and wh
 - ✅ Fixed webpack configuration to handle asset copying more robustly
 - ✅ Identified issues with direct Android builds in GitHub Actions
 - ✅ Decided to use Expo's EAS Build service for more reliable Android builds
+  - Android builds can be triggered using: `eas build --platform android`
+  - Check if you're already logged in with: `eas whoami`
+  - If not logged in, use: `eas login`
+  - Issue encountered: Invalid eas.json configuration with error "build.preview.android.applicationId is not allowed"
+  - Solution: Remove the invalid "applicationId" property from the preview profile in eas.json. The correct way to set the application ID is using "android.package" in app.json/app.config.js
 - ✅ Created necessary icon and splash screen assets for Android builds
 - ✅ Fixed asset loading in Metro development server through improved configuration
