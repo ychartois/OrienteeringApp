@@ -47,7 +47,15 @@
     "web": {
       "favicon": "./src/assets/favicon.png",
       "bundler": "webpack",
-      "publicPath": "/OrienteeringApp/"
+      "publicPath": "/OrienteeringApp/",
+      "build": {
+        "babel": {
+          "include": ["@expo/vector-icons"]
+        }
+      },
+      "output": {
+        "publicPath": "/OrienteeringApp/"
+      }
     },
     "locales": {
       "en": "./src/locales/en.json"
