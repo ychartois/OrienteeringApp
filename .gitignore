@@ -38,6 +38,7 @@ web-build/
 /ios
 /android/app/build/
 /ios/build/
+frontend/android/
 
 # Logs
 logs
