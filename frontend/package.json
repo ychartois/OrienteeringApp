@@ -9,7 +9,8 @@
     "web": "webpack serve --mode=development --config webpack.config.js",
     "build-web": "cross-env NODE_ENV=production webpack --mode=production --config webpack.config.js",
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "update-version": "node scripts/update-version.js"
   },
   "dependencies": {
     "@react-navigation/native": "^6.1.18",

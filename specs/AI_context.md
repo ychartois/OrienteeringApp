@@ -15,13 +15,13 @@ This file contain the instructions for the work day, what want to achieve and wh
 ### Items covered from the current roadmap
 #### 🔄 Deployment
 - ✅ Web deployment configuration with GitHub Pages
-- 🔄 Mobile app deployment with EAS Build
-- 🔄 CI/CD pipeline with GitHub Actions
+- ✅ Mobile app deployment with EAS Build
+- ✅ CI/CD pipeline with GitHub Actions
 
 #### 🔄 Branching & Release Strategy
-- 📝 Implement Git Flow branching model
-- 📝 Configure builds to trigger only on specific branches/tags
-- 📝 Set up automatic versioning for releases
+- ✅ Implement Git Flow branching model
+- ✅ Configure builds to trigger only on specific branches/tags
+- ✅ Set up automatic versioning for releases
 
 #### 🔄 Testing & Quality
 - ✅ Unit tests for core functionality

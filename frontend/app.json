@@ -52,8 +52,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "orienteering-app"
+        "projectId": "e7d7b707-d9f5-46f4-980a-af9f972054ba"
       }
-    }
+    },
+    "owner": "ychartois"
   }
 }

@@ -50,7 +50,55 @@ If you want to use a custom domain with GitHub Pages:
 
 ### Android
 
-#### Building an Android APK
+#### Automated Builds with EAS Build
+
+We use Expo Application Services (EAS) Build for creating Android app builds. This is configured to run automatically through GitHub Actions.
+
+##### Build Types
+
+- **Development Builds**: Triggered automatically when pushing to the `develop` branch
+- **Production Builds**: Triggered automatically when pushing version tags (e.g., `v1.0.0`)
+- **Manual Builds**: Can be triggered manually from the GitHub Actions tab
+
+##### Using the GitHub Actions Workflow
+
+1. **For Development Builds**:
+   - Push changes to the `develop` branch
+   - GitHub Actions will automatically start a development build
+   - The build will be available in the Expo dashboard
+
+2. **For Production Builds**:
+   - Create and push a version tag:
+     ```bash
+     git tag v1.0.0
+     git push origin v1.0.0
+     ```
+   - GitHub Actions will automatically start a production build
+   - The production build will be available in the Expo dashboard
+
+3. **For Manual Builds**:
+   - Go to the GitHub Actions tab in the repository
+   - Select the "Android Build" workflow
+   - Click "Run workflow"
+   - Select the build type (development, preview, or production)
+   - Click "Run workflow"
+
+##### Accessing Builds
+
+Once a build is complete, you can access it through:
+- The Expo dashboard at https://expo.dev
+- The build URL provided in the GitHub Actions run summary
+
+##### Build Profiles
+
+The build profiles are defined in `frontend/eas.json`:
+- **Development**: Creates a debug APK with the development client
+- **Preview**: Creates an internal distribution APK for testing
+- **Production**: Creates an app bundle for Google Play Store submission
+
+#### Building an Android APK Locally
+
+If you need to build an APK manually:
 
 ```bash
 # Navigate to the frontend directory

@@ -204,18 +204,54 @@ We follow semantic versioning (SemVer) for our releases:
 
 Example: 1.4.2 (major.minor.patch)
 
+### Version Update Tool
+
+To maintain consistent version numbers across all files, we provide a version update script:
+
+```bash
+# Navigate to the frontend directory
+cd frontend
+
+# Update all version numbers to 1.2.3
+npm run update-version 1.2.3
+```
+
+This script will:
+- Update the version in package.json
+- Update the version in app.json (both root and expo section)
+- Increment the Android versionCode in app.json
+- Increment the iOS buildNumber in app.json
+
+Always run this script when preparing a release to ensure version consistency.
+
 ## Release Checklist
 
 Before creating a release:
 
 1. Ensure all tests pass on the develop branch
 2. Update the CHANGELOG.md file with all notable changes
-3. Update version numbers in all necessary files
+3. Update version numbers using the version update tool:
+   ```bash
+   cd frontend
+   npm run update-version 1.2.3  # Use appropriate version number
+   ```
 4. Create the release branch following the process above
-5. Test the release build on multiple devices
+5. Test the development build on multiple devices:
+   ```bash
+   # For local testing
+   cd frontend
+   npm run android
+   
+   # Or trigger a development build via GitHub Actions
+   # by pushing to develop or using the manual workflow trigger
+   ```
 6. Submit for team review
-7. Merge to main and tag the release
-8. Initiate the production build for app stores
+7. Merge to main and tag the release:
+   ```bash
+   git tag -a v1.2.3 -m "Version 1.2.3"
+   git push origin v1.2.3
+   ```
+8. The tag push will automatically trigger the production build for app stores via GitHub Actions
 
 ## GitHub Actions Authentication for EAS Build
 
