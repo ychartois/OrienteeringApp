@@ -4,19 +4,20 @@
  * Copyright 2024 Fonticons, Inc.
  */
 
-/**
- * @license React
- * react-dom.production.min.js
+/*!
+ * The buffer module from node.js, for the browser.
  *
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
  */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! regenerator-runtime -- Copyright (c) 2014-present, Facebook, Inc. -- license (MIT): https://github.com/facebook/regenerator/blob/main/LICENSE */
 
 /**
  * @license React
- * react-jsx-runtime.production.min.js
+ * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
