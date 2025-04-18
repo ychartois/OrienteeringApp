@@ -21,7 +21,8 @@ import {
   generateQuizQuestions, 
   getAllSymbolTypes,
   shuffleArray,
-  getAllSymbols
+  getAllSymbols,
+  countAvailableSymbols
   // Remove getTotalSymbolCount and getSymbolCountByType imports
 } from '../utils/assetUtils';
 
@@ -54,6 +55,9 @@ interface QuizScreenState {
   quizSetupComplete: boolean;
   quizCompleted: boolean;
   hasReducedQuestions?: boolean; // Added missing property
+  insufficientSymbolsError?: boolean; // Added missing property
+  availableSymbolCount?: number; // Added missing property
+  requiredSymbolCount?: number; // Added missing property
 }
 
 class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
@@ -106,22 +110,39 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
         questionCount = 20;
       }
       
-      // Generate questions
-      const questions = generateQuizQuestions(difficultyLevel, selectedTypes, 0);
-      
-      // Ensure we have the correct number of questions
-      let shuffledQuestions = shuffleArray([...questions]);
-      if (shuffledQuestions.length > questionCount) {
-        shuffledQuestions = shuffledQuestions.slice(0, questionCount);
+      // Determine complexities based on difficulty
+      let complexities: number[] = [];
+      if (difficultyLevel === 1) { // Easy
+        complexities = [1]; // Only easy symbols
+      } else if (difficultyLevel === 2) { // Medium
+        complexities = [1, 2]; // Easy and medium symbols
+      } else { // Hard
+        complexities = [2, 3]; // Medium and hard symbols
       }
       
-      // If we don't have enough questions, add a message
-      const hasReducedQuestions = shuffledQuestions.length < questionCount;
+      // Check if we have enough symbols available before starting the quiz
+      const availableSymbolCount = countAvailableSymbols(selectedTypes, complexities);
+      
+      // If not enough symbols, show error and don't start the quiz
+      if (availableSymbolCount < questionCount) {
+        // Show error message
+        this.setState({
+          loading: false,
+          insufficientSymbolsError: true,
+          availableSymbolCount,
+          requiredSymbolCount: questionCount
+        });
+        return;
+      }
+      
+      // Generate questions
+      const questions = generateQuizQuestions(difficultyLevel, selectedTypes, questionCount);
+      const shuffledQuestions = shuffleArray([...questions]);
       
       // Set state
       this.setState({
         questions: shuffledQuestions,
-        hasReducedQuestions,
+        insufficientSymbolsError: false,
         currentQuestionIndex: 0,
         selectedAnswer: null,
         isAnswerSubmitted: false,
@@ -648,7 +669,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
   };
 
   render() {
-    const { loading, quizCompleted, quizSetupComplete } = this.state;
+    const { loading, quizCompleted, quizSetupComplete, insufficientSymbolsError, availableSymbolCount, requiredSymbolCount } = this.state;
     const { theme } = this.props;
     
     if (loading) {
@@ -656,6 +677,24 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
         <View style={[styles.centered, { backgroundColor: theme.colors.background }]}>
           <ActivityIndicator size="large" color={theme.colors.primary} animating={true} />
           <Text style={[styles.loadingText, { color: theme.colors.onBackground }]}>Loading quiz questions...</Text>
+        </View>
+      );
+    }
+    
+    if (insufficientSymbolsError) {
+      return (
+        <View style={[styles.centered, { backgroundColor: theme.colors.background }]}>
+          <Text style={[styles.errorText, { color: theme.colors.error }]}>
+            Not enough symbols available to start the quiz. Available: {availableSymbolCount}, Required: {requiredSymbolCount}.
+          </Text>
+          <Button
+            mode="contained"
+            onPress={() => this.setState({ insufficientSymbolsError: false })}
+            style={styles.button}
+            icon="arrow-left"
+          >
+            Back to Settings
+          </Button>
         </View>
       );
     }

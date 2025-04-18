@@ -42,7 +42,8 @@ logs
 *.log
 
 # Testing
-/coverage
+/coverage/
+frontend/coverage/
 
 # Dependency directories
 /.pnp

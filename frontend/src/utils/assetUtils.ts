@@ -287,3 +287,35 @@ export function getSymbolCountByType(type: string): number {
 export function getTotalSymbolCount(): number {
   return getAllSymbols().length;
 }
+
+/**
+ * Calculate the number of symbols available for a quiz based on criteria
+ * @param types - Array of symbol types to include (empty array means all types)
+ * @param complexities - Array of complexity levels
+ * @returns The count of available symbols matching the criteria
+ */
+export const countAvailableSymbols = (types: string[] = [], complexities: number[] = []): number => {
+  let availableSymbols: Symbol[] = [];
+  
+  if (types.length === 0 && complexities.length === 0) {
+    // If no filters, return total symbol count
+    return getAllSymbols().length;
+  }
+  
+  complexities.forEach(complexity => {
+    if (types.length === 0) {
+      // If no types specified, get all symbols of this complexity
+      availableSymbols = [...availableSymbols, ...getSymbolsByComplexity(complexity)];
+    } else {
+      // Otherwise, get symbols of specified types and complexity
+      availableSymbols = [...availableSymbols, ...getSymbolsByTypesAndComplexity(types, complexity)];
+    }
+  });
+  
+  // If complexities array is empty, just filter by types
+  if (complexities.length === 0 && types.length > 0) {
+    availableSymbols = getAllSymbols().filter(s => types.includes(s.type));
+  }
+  
+  return availableSymbols.length;
+};
