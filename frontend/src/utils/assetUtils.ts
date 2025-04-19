@@ -76,31 +76,29 @@ export const getSymbolImagePath = (symbolRef: string, symbolType: string, symbol
 export const getAssetPath = (imagePath: string): string => {
   if (!imagePath) return '';
   
-  // On web, handle the path differently for Metro and webpack
+  // Handle external URLs
+  if (imagePath.startsWith('http')) {
+    return imagePath;
+  }
+  
+  console.log('Platform.OS', Platform.OS);
+  // On web, handle the path differently based on deployment context
   if (Platform.OS === 'web') {
-    // For webpack port 3000, retain the current behavior
-    if (window.location.port === '3000') {
+    // When deployed to GitHub Pages with the /OrienteeringApp/ base path
+    if (window.location && window.location.pathname.includes('OrienteeringApp')) {
       if (imagePath.includes('../../assets')) {
-        return imagePath.replace('../../assets', '/assets');
+        return `/OrienteeringApp${imagePath.replace('../../assets', '/assets')}`;
       }
-    } 
-    // For Metro port 8081
-    else {
-      // When the path includes "../../assets", the file is in src/assets
-      if (imagePath.includes('../../assets')) {
-        // Ensure the path explicitly includes src/assets
-        return `src/assets/${imagePath.split('/').pop()}`;
-      }
+      return `/OrienteeringApp${imagePath}`;
+    }
+    
+    // For local development or other web deployments
+    if (imagePath.includes('../../assets')) {
+      return imagePath.replace('../../assets', '/assets');
     }
   }
   
-  // For local file path references in native
-  if (imagePath.includes('../../assets')) {
-    // For native, require doesn't work with dynamic paths,
-    // so we would handle this differently in a native context
-    return `src/assets/${imagePath.split('/').pop()}`;
-  }
-  
+  // For native platforms
   return imagePath;
 };
 

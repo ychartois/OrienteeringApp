@@ -2,6 +2,7 @@ import * as React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
 import { Card, Title, Paragraph, withTheme } from 'react-native-paper';
 import { Symbol } from '../types';
+import { getAssetPath } from '../utils/assetUtils';
 
 interface SymbolCardProps {
   symbol: Symbol;
@@ -18,13 +19,7 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
       <Card.Content style={styles.cardContent}>
         <View style={[styles.imageContainer, { backgroundColor: theme.colors.surfaceVariant }]}>
           <Image 
-            source={
-              symbol.image.startsWith('http') 
-                ? { uri: symbol.image } 
-                : { uri: window.location && window.location.pathname.includes('OrienteeringApp')
-                    ? `/OrienteeringApp${symbol.image.replace('../../assets', '/assets')}`
-                    : symbol.image.replace('../../assets', '/assets') }
-            }
+            source={{ uri: getAssetPath(symbol.image) }}
             style={styles.image} 
             resizeMode="contain"
           />

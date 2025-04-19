@@ -17,6 +17,7 @@ import {
 // Remove MaterialCommunityIcons import
 import { QuizDifficulty, Symbol, QuizQuestion } from '../types';
 import { 
+  getAssetPath,
   getSymbolById, 
   generateQuizQuestions, 
   getAllSymbolTypes,
@@ -482,13 +483,7 @@ class QuizScreen extends Component<QuizScreenProps, QuizScreenState> {
         
         <View style={styles.symbolContainer}>
           <Image 
-            source={
-              symbol.image.startsWith('http') 
-                ? { uri: symbol.image } 
-                : { uri: window.location && window.location.pathname.includes('OrienteeringApp')
-                    ? `/OrienteeringApp${symbol.image.replace('../../assets', '/assets')}`
-                    : symbol.image.replace('../../assets', '/assets') }
-            } 
+            source={{ uri: getAssetPath(symbol.image) }} 
             style={[styles.symbolImage, { backgroundColor: theme.colors.surface }]} 
             resizeMode="contain"
           />
