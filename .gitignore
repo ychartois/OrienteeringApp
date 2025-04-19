@@ -54,3 +54,4 @@ frontend/coverage/
 
 # Misc
 .DS_Store
+.github/work_session.md
