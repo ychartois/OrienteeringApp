@@ -60,6 +60,7 @@ This document outlines established workflow conventions, preferences, and best p
 - Maintain consistent code style throughout the project
 - Document complex functions with JSDoc comments
 - Keep components focused on a single responsibility
+- Always use the `getAssetPath` utility function when accessing any assets to ensure proper path resolution across all platforms and environments
 
 ### Testing Standards
 
@@ -73,6 +74,25 @@ This document outlines established workflow conventions, preferences, and best p
 - Follow the design guidelines in our documentation
 - Test across multiple device sizes
 - Ensure all UI elements have proper accessibility features
+
+## Asset Management
+
+### Asset Path Handling
+
+- **Always use `getAssetPath`** from `/frontend/src/utils/assetUtils.ts` when accessing any assets
+- Never hardcode asset paths in components or screens
+- For image sources in React Native components, use the following pattern:
+  ```tsx
+  import { getAssetPath } from '../utils/assetUtils';
+  
+  // For image elements
+  <Image source={{ uri: getAssetPath(imagePath) }} />
+  ```
+- This ensures consistent path resolution across:
+  - Web deployments (local development server)
+  - GitHub Pages deployment
+  - Native mobile apps
+  - Different operating systems
 
 ## Troubleshooting Tips
 
