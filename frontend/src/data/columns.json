@@ -1,0 +1,42 @@
+[
+  {
+    "letter": "Column A",
+    "name": "Control number",
+    "description": "Numbering of controls is in the sequence they are to be visited, unless the description is for a Score competition in which case this column is usually either left blank or indicates the control value."
+  },
+  {
+    "letter": "Column B", 
+    "name": "Control code",
+    "description": "The control code should be a number greater than 30."
+  },
+  {
+    "letter": "Column C",
+    "name": "Which of any similar feature",
+    "description": "This column may be used when there is more than one similar feature within the control circle; e.g. south eastern."
+  },
+  {
+    "letter": "Column D",
+    "name": "Control feature",
+    "description": "The feature, as shown on the map, at the centre of the circle defining the control site; e.g. clearing; boulder."
+  },
+  {
+    "letter": "Column E",
+    "name": "Appearance",
+    "description": "Further information on the nature of the feature if it is required; e.g. overgrown; ruined. In certain circumstances also used for a second control feature where the description requires this i.e. crossing; junction; between."
+  },
+  {
+    "letter": "Column F",
+    "name": "Dimensions / Combinations / Bend",
+    "description": "Dimensions of the feature should be given where the size of the control feature on the map is symbolic rather than to scale. Also used for the two combination symbols (crossing; junction), and the Bend symbol."
+  },
+  {
+    "letter": "Column G",
+    "name": "Location of the control flag",
+    "description": "Position of the control flag with respect to the feature; e.g. west corner (outside); south foot."
+  },
+  {
+    "letter": "Column H",
+    "name": "Other information",
+    "description": "Other information that may be of importance to the competitor; e.g. first aid; refreshments."
+  }
+]

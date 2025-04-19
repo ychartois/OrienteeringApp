@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { View, Image, StyleSheet } from 'react-native';
-import { Card, Title, Paragraph, withTheme } from 'react-native-paper';
+import { Card, Title, Paragraph, withTheme, Text } from 'react-native-paper';
 import { Symbol } from '../types';
 import { getAssetPath } from '../utils/assetUtils';
+import columns from '../data/columns.json';
 
 interface SymbolCardProps {
   symbol: Symbol;
@@ -11,6 +12,13 @@ interface SymbolCardProps {
 }
 
 const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
+  // Get column name based on column identifier
+  const getColumnName = (column: string): string => {
+    // Find the column in our columns data
+    const columnData = columns.find(c => c.letter === column);
+    return columnData ? columnData.name : '';
+  };
+
   return (
     <Card 
       style={[styles.card, { backgroundColor: theme.colors.surface }]} 
@@ -30,6 +38,11 @@ const SymbolCard: React.FC<SymbolCardProps> = ({ symbol, onPress, theme }) => {
             <Paragraph style={{ color: theme.colors.onSurfaceVariant }} numberOfLines={2}>
               {symbol.description}
             </Paragraph>
+          )}
+          {symbol.column && (
+            <Text style={[styles.columnInfo, { color: theme.colors.primary }]}>
+              {symbol.column} - {getColumnName(symbol.column)}
+            </Text>
           )}
         </View>
       </Card.Content>
@@ -68,6 +81,11 @@ const styles = StyleSheet.create({
   type: {
     fontSize: 14,
     marginBottom: 4,
+  },
+  columnInfo: {
+    fontSize: 12,
+    marginTop: 4,
+    fontStyle: 'italic',
   },
 });
 
