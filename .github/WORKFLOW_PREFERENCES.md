@@ -94,6 +94,15 @@ This document outlines established workflow conventions, preferences, and best p
   - Native mobile apps
   - Different operating systems
 
+### Favicon Usage
+
+- All favicon files are stored in `/frontend/public/favicons/`
+- Favicons are automatically loaded via HTML links in index.html and should not be referenced in application components
+- Do not use `getAssetPath` for favicons, as they are served directly from the public directory
+- When referencing favicons in HTML, use relative paths like `./favicons/favicon.ico` instead of using %PUBLIC_URL%
+- When updating the favicon, make sure to generate all required sizes and formats as documented in `.github/favicon_generation.md`
+- Test favicon appearance across different browsers and devices after making changes
+
 ## Troubleshooting Tips
 
 - Check the console for errors
