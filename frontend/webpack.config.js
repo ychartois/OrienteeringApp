@@ -49,6 +49,21 @@ if (isProduction) {
   );
 }
 
+// Add this plugin to copy static files
+plugins.push(
+  new CopyWebpackPlugin({
+    patterns: [
+      { 
+        from: path.resolve(__dirname, 'public'),
+        to: path.resolve(__dirname, 'dist'),
+        globOptions: {
+          ignore: ['**/index.html'], // Don't copy index.html as HtmlWebpackPlugin handles it
+        },
+      },
+    ],
+  })
+);
+
 module.exports = {
   entry: './index.js',
   output: {
