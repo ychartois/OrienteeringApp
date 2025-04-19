@@ -81,7 +81,6 @@ export const getAssetPath = (imagePath: string): string => {
     return imagePath;
   }
   
-  console.log('Platform.OS', Platform.OS);
   // On web, handle the path differently based on deployment context
   if (Platform.OS === 'web') {
     // When deployed to GitHub Pages with the /OrienteeringApp/ base path
